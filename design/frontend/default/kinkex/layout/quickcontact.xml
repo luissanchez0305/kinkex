@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <default>
+    <reference name="head">
+      <action method="addItem">
+        <type>skin_js</type>
+        <name>js/jquery-1.5.2.min.js</name>
+      </action>
+      <action method="addItem">
+        <type>skin_js</type>
+        <name>js/noconflict.js</name>
+      </action>
+      <action method="addItem">
+        <type>skin_js</type>
+        <name>quickcontact/js/modalwindow.js</name>
+      </action>
+      <action method="addItem">
+        <type>skin_js</type>
+        <name>quickcontact/js/quickContact.js</name>
+      </action>
+      <action method="addCss">
+        <stylesheet>quickcontact/css/form-contact.css</stylesheet>
+      </action>
+    </reference>
+    <reference name="before_body_end">
+      <block type="core/template" name="quickcontact" template="quickcontact/form.phtml"/>
+    </reference>
+  </default>
+</layout>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+      <Paymentsense_Sales>
+        <version>0.0.1</version>
+      </Paymentsense_Sales>
+    </modules>
+   <global>
+      <models>
+        <sales>
+          <rewrite>
+            <order>Paymentsense_Sales_Model_Order</order>
+            <order_invoice>Paymentsense_Sales_Model_Order_Invoice</order_invoice>
+      <order_payment>Paymentsense_Sales_Model_Order_Payment</order_payment>
+      <service_quote>Paymentsense_Sales_Model_Service_Quote</service_quote>
+          </rewrite>
+        </sales>
+      </models>
+    <sales>
+    <order>
+      <statuses>
+        <pys_paid translate="label">
+          <label>Paguelofacil - Pago Exitoso</label>
+        </pys_paid>
+        <pys_pending_threed_secure translate="label">
+          <label>Paguelofacil - Pending 3D Secure</label>
+        </pys_pending_threed_secure>
+        <pys_failed_threed_secure translate="label">
+          <label>Paguelofacil - Failed 3D Secure</label>
+        </pys_failed_threed_secure>
+        <pys_pending translate="label">
+          <label>Paguelofacil - Pending Hosted Payment</label>
+        </pys_pending>
+        <pys_pending_hosted_payment translate="label">
+          <label>Paguelofacil - Pending Hosted Payment</label>
+        </pys_pending_hosted_payment>
+        <pys_failed_hosted_payment translate="label">
+          <label>Paguelofacil - Denegada</label>
+        </pys_failed_hosted_payment>
+        <pys_refunded translate="label">
+          <label>Paguelofacil - Payment Refunded</label>
+        </pys_refunded>
+        <pys_voided translate="label">
+          <label>Paguelofacil - Payment Voided</label>
+        </pys_voided>
+        <pys_preauth translate="label">
+          <label>Paguelofacil - Payment PreAuthorized</label>
+        </pys_preauth>
+        <pys_collected translate="label">
+          <label>Paguelofacil - Payment Collected</label>
+        </pys_collected>
+      </statuses>
+    </order>
+    </sales>
+   </global>
+</config>

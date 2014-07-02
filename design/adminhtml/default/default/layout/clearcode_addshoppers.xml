@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_adminform_index>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="clearcode_addshoppers/adminform" name="addshoppers" template="addshoppers/myform.phtml"/>
+        </reference>
+    </adminhtml_adminform_index>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addCss"><stylesheet>clearcode_addshoppers/adminhtml.css</stylesheet></action>
+        </reference>
+    </adminhtml_system_config_edit>
+</layout>

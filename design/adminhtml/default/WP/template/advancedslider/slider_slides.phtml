@@ -1,0 +1,20 @@
+<div class="entry-edit">
+    <fieldset>
+        <p class="grand-total"><b><?php echo $this->__('Help Tip: What can I do with a slider?'); ?></b></p>
+        <p><?php echo $this->__('You can see all your slides in the slider.<br />To add a new slide, click on the <b>"Add Slide"</b> button on the top button panel.<br />To re-sort the slides, edit the <b>"position"</b> field and click the <b>"Save and Continue Edit"</b> button.<br />To temporarily disable any of the slides, use the drop-down list <b>"Actions"</b> with the <b>"Submit"</b> button.'); ?></p>
+    </fieldset>
+</div>
+<?php echo $this->getChildHtml('grid'); ?>
+
+<script type="text/javascript">//<![CDATA[
+function fireCheckboxClick(tableName, groupName, chkValue)
+{
+    var xList = $(tableName).select('input[name="' + groupName + '"]');
+    xList.each(function(item) {
+        if ($(item).value == chkValue)
+        {
+            $(item).click();
+        }
+    });
+}
+//]]></script>

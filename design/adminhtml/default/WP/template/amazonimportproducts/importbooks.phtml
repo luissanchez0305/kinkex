@@ -1,0 +1,381 @@
+<?php
+    $configImport = Mage::helper('amazonimportproducts')->getConfigParam('import_params');
+    $savedImportbooksSettings = Mage::getSingleton('admin/session')->getImportbooksSettings();
+    if (!isset($savedImportbooksSettings['import_params']['categories_type']))
+        $savedImportbooksSettings['import_params']['categories_type'] = 'new';
+?>
+<div class="entry-edit">
+    <fieldset id="my-fieldset">
+        <p class="grand-total"><b><?php echo $this->__('Help Tip: how to import books from Amazon.')?></b></p>
+        <p><?php echo $this->__('Enter Amazon search params and click "Search & Load Books". The list displays the Amazon books. To import books into your store, click "Import Loaded Books".')?></p>
+        <p><?php echo $this->__('* Converted Price. If you see 0.00, the currency conversion system probably isn\'t adjusted.')?></p>
+        <?php $info = Mage::helper('amazonimportproducts')->emptySettingsInfo(); if ($info) echo $info; ?>
+    </fieldset>
+</div>
+<div class="entry-edit">
+    <form id="search_params_form" name="search_params_form" enctype="multipart/form-data" method="post">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+        <div>
+            <div class="entry-edit">
+                <div class="entry-edit-head collapseable">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Amazon Search Params')?></h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <div class="fieldset">
+                    <div class="hor-scroll">
+                        <div class="box-left">
+                            <table cellspacing="0" class="form-list">
+                                <tr>
+                                    <td class="label"><label for="amazon_search_params[local]"><?php echo $this->__('Local')?></label></td>
+                                    <td class="value">
+                                        <select name="amazon_search_params[local]" id="amazon_search_params[local]">
+                                        <?php
+                                            $locales = Mage::getModel('amazonimportproducts/source_local')->getOptionArray();
+                                            if (isset($savedImportbooksSettings['amazon_search_params']['local']))
+                                                $localKeySelected = $savedImportbooksSettings['amazon_search_params']['local'];
+                                            else
+                                            {
+                                                $keys = array_keys($locales);
+                                                $localKeySelected = array_shift($keys);
+                                            }
+                                            foreach ($locales as $local => $title)
+                                            {
+                                                $selected = '';
+                                                if ($localKeySelected == $local) $selected = ' selected="selected"';
+                                                echo '<option value="' . $local . '"' . $selected . '>' . $title . '</option>';
+                                            }
+                                        ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table cellspacing="0" class="form-list box-left">
+                            <tr>
+                                <td class="label">
+                                    <label for="amazon_search_params[isbn]"><?php echo $this->__('International Standard Book Number (ISBN)')?></label>
+                                </td>
+                                <td class="value">
+                                    <div class="isbn_list_upload">
+                                        <input type="file" class="input-file" name="isbnlistsource" id="isbnlistsource" />
+                                        <p class="note"><span><?php echo $this->__('Required file type: CSV. ISBN expected in the first column.')?></span></p>
+                                    </div>
+                                    <div class="isbn_list_upload">
+                                        <button id="btnUploadIsbnList" type="button" class="scalable add" onclick="wpUploadIsbnList();"><span><?php echo $this->__('Load list from selected file')?></span></button>
+                                    </div>
+                                    <textarea cols="15" rows="2" class="textarea" name="amazon_search_params[isbn]" id="amazon_search_params[isbn]"><?php echo isset($savedImportbooksSettings['amazon_search_params']['isbn']) ? $savedImportbooksSettings['amazon_search_params']['isbn'] : ''; ?></textarea>
+                                    <p class="note"><span><?php echo $this->__('Use commas to divide multiple values.')?></span></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="entry-edit">
+    <form id="import_params_form" name="import_params_form">
+        <div>
+            <div class="entry-edit">
+                <div class="entry-edit-head collapseable">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Import Params')?></h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <div class="fieldset">
+                    <div class="hor-scroll">
+                    <table cellspacing="0" class="form-list box-left">
+                        <tr>
+                            <td class="label"><label for="import_params[rootCategory]"><?php echo $this->__('Categories')?></label></td>
+                            <td class="value">
+                                <input type="radio"
+                                    name="import_params[categories_type]"
+                                    value="new"
+                                    <?php echo $savedImportbooksSettings['import_params']['categories_type'] == 'new' ? ' checked="checked" ' : ''; ?>
+                                    id="categories_type_new"/>
+                                <label for="categories_type_new"><?php echo $this->__('Create categories on the basis of Amazon structure')?></label>
+                                <table cellspacing="0" class="form-list subtable">
+                                    <tr>
+                                        <td class="label">
+                                            <label for="import_params[rootCategory]"><?php echo $this->__('Default Root Catalog')?></label>
+                                            <select name="import_params[rootCategory]" id="import_params[rootCategory]">
+                                            <?php
+                                                $catalogs = Mage::getModel('amazonimportproducts/source_catalog')->toOptionArray();
+                                                if (isset($savedImportbooksSettings['import_params']['rootCategory']))
+                                                    $keySelected = $savedImportbooksSettings['import_params']['rootCategory'];
+                                                else
+                                                    $keySelected = Mage::getModel('amazonimportproducts/observer')->getProductRootCatalogPath();
+                                                foreach ($catalogs as $key => $name)
+                                                {
+                                                    $selected = '';
+                                                    if ($keySelected == $key) $selected = ' selected="selected"';
+                                                    echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <label for="import_params[defaultCategoryIsAnchor]"><?php echo $this->__('Default value of "Is Anchor" for new categories')?></label>
+                                            <select name="import_params[defaultCategoryIsAnchor]" id="import_params[defaultCategoryIsAnchor]">
+                                            <?php
+                                                $isAnchor = array('0' => $this->__('No'), '1' => $this->__('Yes'));
+                                                if (isset($savedImportbooksSettings['import_params']['defaultCategoryIsAnchor']))
+                                                    $keySelected = $savedImportbooksSettings['import_params']['defaultCategoryIsAnchor'];
+                                                else
+                                                    $keySelected = $configImport['category_is_anchor'];
+                                                foreach ($isAnchor as $key => $value)
+                                                {
+                                                    $selected = '';
+                                                    if ($keySelected == $key) $selected = ' selected="selected"';
+                                                    echo '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p></p>
+                                <input type="radio"
+                                    name="import_params[categories_type]"
+                                    value="exists"
+                                    <?php echo $savedImportbooksSettings['import_params']['categories_type'] == 'exists' ? ' checked="checked" ' : ''; ?>
+                                    id="categories_type_exists"/>
+
+                                <label for="categories_type_exists"><?php echo $this->__('Use existing categories')?></label>
+                                <table cellspacing="0" class="form-list subtable">
+                                    <tr>
+                                        <td class="label">
+                                            <dl id="selection_existing_categories"><?php echo isset($savedImportbooksSettings['selection_existing_categories']) ? $savedImportbooksSettings['selection_existing_categories'] : $this->__('Not selected')?></dl>
+                                            <p></p>
+                                            <a href="javascript:;" onclick="$('categories_type_exists').checked = true; openExistingCategoriesSelector();"><?php echo $this->__('Select from existing categories...')?></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <table cellspacing="0" class="form-list box-left">
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[defaultCondition]"><?php echo $this->__('Default Condition')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[defaultCondition]" id="amazon_search_params[defaultCondition]">
+                                    <?php
+                                        $locales = Mage::getModel('amazonimportproducts/source_condition')->toOptionArray();
+                                        if (isset($savedImportbooksSettings['amazon_search_params']['defaultCondition']))
+                                            $keySelected = $savedImportbooksSettings['amazon_search_params']['defaultCondition'];
+                                        else
+                                            $keySelected = $configImport['product_condition'];
+                                        foreach ($locales as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Enables you to specify the condition of an desired book')?></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[defaultPrice]"><?php echo $this->__('Default Price')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[defaultPrice]" id="amazon_search_params[defaultPrice]">
+                                    <?php
+                                        $locales = Mage::getModel('amazonimportproducts/source_price')->toOptionArray();
+                                        if (isset($savedImportbooksSettings['amazon_search_params']['defaultPrice']))
+                                            $keySelected = $savedImportbooksSettings['amazon_search_params']['defaultPrice'];
+                                        else
+                                            $keySelected = $configImport['product_price'];
+                                        foreach ($locales as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Book price selected from prices offered by sellers')?></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[defaultImportStatus]"><?php echo $this->__('Default Import Status')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[defaultImportStatus]" id="amazon_search_params[defaultImportStatus]">
+                                    <?php
+                                        $locales = Mage::getModel('amazonimportproducts/source_status')->toOptionArray();
+                                        if (isset($savedImportbooksSettings['amazon_search_params']['defaultImportStatus']))
+                                            $keySelected = $savedImportbooksSettings['amazon_search_params']['defaultImportStatus'];
+                                        else
+                                            $keySelected = $configImport['load_product_status'];
+                                        foreach ($locales as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Status of books that are downloaded from Amazon')?></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[sku]"><?php echo $this->__('SKU')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[sku]" id="amazon_search_params[sku]">
+                                    <?php
+                                        $sku = Mage::getModel('amazonimportproducts/source_assku')->toOptionArray();
+                                        if (isset($savedImportbooksSettings['amazon_search_params']['sku']))
+                                            $keySelected = $savedImportbooksSettings['amazon_search_params']['sku'];
+                                        else
+                                            $keySelected = $configImport['load_product_sku'];
+                                        foreach ($sku as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Use one of the above parameters as a SKU of books that are downloaded from Amazon. Multiple values are possible. Next value is only used when the previous one is empty.<br />ASIN - Amazon Standard Item Number<br />EAN - European Article Number<br />ISBN - International Standard Book Number')?></span></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function wpUploadIsbnList()
+    {
+        $('search_params_form').action = '<?php echo $this->getUrl('*/*/uploadisbnlist'); ?>';
+        var uploadForm = new varienForm('search_params_form');
+        uploadForm.submit();
+    }
+
+    function wpClearImportBooksList()
+    {
+        if (!confirm('<?php echo $this->__('Are you sure?'); ?>')) return false;
+        new Ajax.Request('<?php echo $this->getUrl('*/*/clear'); ?>', {
+            asynchronous: true,
+            method: 'post',
+            loaderArea: false,
+            parameters: getImportFormValues(),
+            onComplete: function(transport) {
+                var responseJSON = transport.responseText.evalJSON();
+
+                if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect)
+                {
+                    setLocation(responseJSON.ajaxRedirect);
+                    return;
+                }
+
+                if (responseJSON.redirect) setLocation(responseJSON.redirect);
+            }
+        });
+    }
+
+    function wpSearchBooks()
+    {
+        wpAmazonImportPopupParams.url = '<?php echo $this->getUrl('*/*/load') ?>';
+        wpAmazonImportPopupParams.title = '<?php echo $this->__('Search & Load Books'); ?>';
+        wpAmazonImportPopupParams.startText = '<?php echo $this->__('Processing...') ?>';
+        wpAmazonImportPopupParams.hideStopButton = false;
+        wpAmazonImportPopupParams.data = getImportFormValues();
+        wpAmazonImportPopupParams.data.startProcess = 1;
+        wpOpenImportAmazonPopup();
+    }
+
+    function wpImportBooks(force, ids)
+    {
+        if (typeof force == 'undefined') force = 0;
+        if (typeof ids == 'undefined') ids = '';
+        var sendData = getImportFormValues();
+        sendData.force = force;
+        sendData.amazonimportbooks = ids;
+        sendData.startProcess = 1;
+        wpAmazonImportPopupParams.url = '<?php echo $this->getUrl('*/*/process') ?>';
+        wpAmazonImportPopupParams.title = '<?php echo $this->__('Import Loaded Books'); ?>';
+        wpAmazonImportPopupParams.startText = '<?php echo $this->__('Processing...') ?>';
+        wpAmazonImportPopupParams.hideStopButton = false;
+        wpAmazonImportPopupParams.data = sendData;
+        wpOpenImportAmazonPopup();
+    }
+
+    function getImportFormValues()
+    {
+        var params = {};
+        var fields = $('search_params_form').getElements();
+        for(var i=0; i<fields.length; i++)
+        {
+            if (!fields[i].name) continue;
+            if (params[fields[i].name]) continue;
+            params[fields[i].name] = fields[i].getValue();
+        }
+        var fields = $('import_params_form').getElements();
+        for(var i=0; i<fields.length; i++)
+        {
+            if (!fields[i].name) continue;
+            if (params[fields[i].name]) continue;
+            params[fields[i].name] = fields[i].getValue();
+        }
+        params[$('amazon_import_product_categories').name] = $('amazon_import_product_categories').getValue();
+        params['selection_existing_categories'] = $('selection_existing_categories').innerHTML;
+        return params;
+    }
+
+    window.onload = function(){
+        amazonimportbooksGrid_massactionJsObject.apply = function() {
+            if(varienStringArray.count(this.checkedString) == 0) {
+                alert(this.errorText);
+                return;
+            }
+
+            var item = this.getSelectedItem();
+            if(!item) {
+                this.validator.validate();
+                return;
+            }
+            this.currentItem = item;
+            var fieldName = (item.field ? item.field : this.formFieldName);
+            var fieldsHtml = '';
+
+            if(this.currentItem.confirm && !window.confirm(this.currentItem.confirm)) {
+                return;
+            }
+
+            this.formHiddens.update('');
+            new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: fieldName, value: this.checkedString}));
+            new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: 'massaction_prepare_key', value: fieldName}));
+
+            if(!this.validator.validate()) {
+                return;
+            }
+
+            if (item.url && item.url == 'forceImport')
+            {
+
+                wpImportBooks(1, this.getCheckedValues());
+                return false;
+
+            } else {
+
+                if(this.useAjax && item.url) {
+                    new Ajax.Request(item.url, {
+                        'method': 'post',
+                        'parameters': this.form.serialize(true),
+                        'onComplete': this.onMassactionComplete.bind(this)
+                    });
+                } else if(item.url) {
+                    this.form.action = item.url;
+                    this.form.submit();
+                }
+
+            }
+        }
+    };
+//]]>
+</script>

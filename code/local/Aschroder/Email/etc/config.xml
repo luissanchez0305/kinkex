@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<!--
+    /**
+    *
+    * @package    Aschroder_Email
+    * @author     Ashley Schroder (aschroder.com)
+    * @copyright Copyright (c) 2013 ASchroder Consulting Ltd
+    */
+-->
+<config>
+    <modules>
+        <Aschroder_Email>
+            <version>1.0.7</version>
+        </Aschroder_Email>
+    </modules>
+    <frontend>
+        <routers>
+            <aschroder_email>
+                <use>standard</use>
+                <args>
+                    <module>Aschroder_Email</module>
+                    <frontName>aschroder_email</frontName>
+                </args>
+            </aschroder_email>
+        </routers>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <aschroder_email after="Mage_Adminhtml">Aschroder_Email</aschroder_email>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+        <helpers>
+            <aschroder_email>
+                <class>Aschroder_Email_Helper</class>
+            </aschroder_email>
+        </helpers>
+        <blocks>
+            <aschroder_email>
+                <class>Aschroder_Email_Block</class>
+            </aschroder_email>
+        </blocks>
+        <models>
+            <aschroder_email>
+                <class>Aschroder_Email_Model</class>
+                <resourceModel>aschroder_email_mysql4</resourceModel>
+            </aschroder_email>
+            <aschroder_email_mysql4>
+                <class>Aschroder_Email_Model_Mysql4</class>
+                <entities>
+                    <email_log>
+                        <table>aschroder_email_log</table>
+                    </email_log>
+                    <seslog>
+                        <table>aschroder_email_seslog</table>
+                    </seslog>
+                </entities>
+            </aschroder_email_mysql4>
+            <!-- These rewrites are mainly used to setup the events/transport usage -->
+            <newsletter>
+                <rewrite>
+                    <template>Aschroder_Email_Model_Newsletter_Template</template>
+                </rewrite>
+            </newsletter>
+            <core>
+                <rewrite>
+                    <email>Aschroder_Email_Model_Email</email>
+                    <email_template>Aschroder_Email_Model_Email_Template</email_template>
+                </rewrite>
+            </core>
+            <!-- These rewrites are used to fix parts of core that are incompatible with SES -->
+            <sendfriend>
+                <rewrite>
+                    <!-- Amazon SES requires the from: address to be verified, arbitrary customer email's cannot be the from: address -->
+                    <sendfriend>Aschroder_Email_Model_Sendfriend</sendfriend>
+                </rewrite>
+            </sendfriend>
+        </models>
+        <resources>
+            <aschroder_email_setup>
+                <setup>
+                    <module>Aschroder_Email</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </aschroder_email_setup>
+            <aschroder_email_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </aschroder_email_write>
+            <aschroder_email_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </aschroder_email_read>
+        </resources>
+        <!-- These events are where the actual sending takes place - if you need custom behavior, use these events -->
+        <events>
+            <aschroder_email_after_send>
+                <observers>
+                    <aschroder_email_after_send_observer>
+                        <type>singleton</type>
+                        <class>aschroder_email/observer</class>
+                        <method>log</method>
+                    </aschroder_email_after_send_observer>
+                </observers>
+            </aschroder_email_after_send>
+            <aschroder_email_before_send>
+                <observers>
+                    <aschroder_email_before_send_observer>
+                        <type>singleton</type>
+                        <class>aschroder_email/observer</class>
+                        <method>beforeSend</method>
+                    </aschroder_email_before_send_observer>
+                </observers>
+            </aschroder_email_before_send>
+            <aschroder_email_template_before_send>
+                <observers>
+                    <aschroder_email_template_before_send_observer>
+                        <type>singleton</type>
+                        <class>aschroder_email/observer</class>
+                        <method>beforeSendTemplate</method>
+                    </aschroder_email_template_before_send_observer>
+                </observers>
+            </aschroder_email_template_before_send>
+        </events>
+    </global>
+    <adminhtml>
+        <menu>
+            <system>
+                <children>
+                    <tools>
+                        <children>
+                            <aschroder_email_log translate="title" module="aschroder_email">
+                                <title>Email Log</title>
+                                <action>adminhtml/email_log</action>
+                                <sort_order>101</sort_order>
+                            </aschroder_email_log>
+                            <aschroder_email_error translate="title" module="aschroder_email">
+                                <title>Email Errors</title>
+                                <action>adminhtml/email_errorlog</action>
+                                <sort_order>102</sort_order>
+                            </aschroder_email_error>
+                            <aschroder_email_stats translate="title" module="aschroder_email">
+                                <title>Email Stats</title>
+                                <action>adminhtml/email_stats</action>
+                                <sort_order>103</sort_order>
+                            </aschroder_email_stats>
+                        </children>
+                    </tools>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <aschroder_email  translate="title" module="aschroder_email">
+                                            <title>Amazon SES Email Settings</title>
+                                        </aschroder_email>
+                                    </children>
+                                </config>
+                                <tools>
+                                    <children>
+                                        <aschroder_email_log  translate="title" module="aschroder_email">
+                                            <title>Email Log</title>
+                                            <sort_order>1</sort_order>
+                                        </aschroder_email_log>
+                                        <aschroder_email_error translate="title" module="aschroder_email">
+                                            <title>Email Errors</title>
+                                            <sort_order>2</sort_order>
+                                        </aschroder_email_error>
+                                        <aschroder_email_stats translate="title" module="aschroder_email">
+                                            <title>Email Stats</title>
+                                            <sort_order>3</sort_order>
+                                        </aschroder_email_stats>
+                                    </children>
+                                </tools>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <Aschroder_Email>
+                    <files>
+                        <default>Aschroder_Email.csv</default>
+                    </files>
+                </Aschroder_Email>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <aschroder_email>
+            <general>
+                <enabled>1</enabled>
+                <region>US-EAST-1</region>
+                <log>1</log>
+                <log_bounce>1</log_bounce>
+                <log_clean>0</log_clean>
+            </general>
+        </aschroder_email>
+    </default>
+    <crontab>
+        <jobs>
+            <cloudbackup_daily>
+                <schedule><cron_expr>0 0 * * *</cron_expr></schedule>
+                <run><model>aschroder_email/cron::daily</model></run>
+            </cloudbackup_daily>
+        </jobs>
+    </crontab>
+</config>

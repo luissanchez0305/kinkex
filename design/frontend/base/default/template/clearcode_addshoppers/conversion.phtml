@@ -1,0 +1,30 @@
+<?php
+/**
+ * CLS_AddShoppers
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to support@classyllama.com so we can send you a copy immediately.
+ *
+ * @category    design
+ * @package     CLS_AddShoppers
+ * @copyright   Copyright (c) 2012 Classy Llama Studios, LLC (classyllama.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<script type="text/javascript">
+    AddShoppersConversion = {
+        order_id: '<?php echo $this->getOrderId(); ?>',
+        value: '<?php echo $this->getAmount(); ?>'
+    };
+    var js = document.createElement('script'); js.type = 'text/javascript'; js.async = true; js.id = 'AddShoppers';
+    js.src = ('https:' == document.location.protocol ? 'https://shop.pe/widget/' : 'http://cdn.shop.pe/widget/') + 'widget_async.js#<?php echo $this->getShopId(); ?>';
+    document.getElementsByTagName("head")[0].appendChild(js);
+</script>
+<?php echo $this->getSellShareSection(); ?>

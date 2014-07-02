@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <WP_Quickshopaddtocomparefix>
+            <version>0.1.0</version>
+        </WP_Quickshopaddtocomparefix>
+    </modules>
+
+    <global>
+        <models>
+            <quickshopaddtocomparefix>
+                  <class>WP_Quickshopaddtocomparefix_Model</class>
+           </quickshopaddtocomparefix>
+        </models>
+    </global>
+
+    <frontend>
+        <events>
+
+            <catalog_product_compare_add_product>
+                <observers>
+                    <quickshopaddtocomparefix>
+                        <type>singleton</type>
+                        <class>quickshopaddtocomparefix/observer</class>
+                        <method>catalogProductCompareAddProduct</method>
+                    </quickshopaddtocomparefix>
+                </observers>
+            </catalog_product_compare_add_product>
+
+        </events>
+    </frontend>
+
+</config>

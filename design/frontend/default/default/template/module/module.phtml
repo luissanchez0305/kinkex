@@ -1,0 +1,41 @@
+<div class="videotrain" >
+		<?php echo "Start to Learn By Video" ; ?>
+	
+	
+	<ul>
+		<?php
+				
+					$collection = Mage::getModel('module/module')->getCollection();
+					foreach ($collection as $coll) {
+					$videotitle =$coll->getquizvideoTitle();
+					$video= Mage::getBaseUrl().'/video/'. $coll->getFilename();
+					$c= $coll['module_id'];
+					
+		?>
+		<li>
+		<div class="spa"> <a href="<?php echo $this->getUrl('module/index/view/').'id/'.$c; ?>"><?php echo  $videotitle; ?></a></div>
+			<div class="embed">
+		<embed width="200" height="200" pluginspage="http://www.apple.com/quicktime/download/" 
+		src="<?php echo $video; ?>" controller="false" autoplay="false" loop= "true" >
+		</embed> <br/>
+		</div>
+		</li>
+
+
+
+
+
+			<?php }
+			
+			?>
+		</ul>
+</div>
+
+<style type="text/css">
+	.videotrain{display:block; float: left;}
+	.videotrain ul{display: block; }
+	.videotrain li{list-style: none; float: left; width:300px; height: 250px;}
+	.videotrain li div.spa{list-style: none; float: left; color:#FF0000; font-weight: bold; margin: 10px;}
+	.videotrain li div.spa a{color:#FF0000;}
+	.embed{width: 200px; height: 200px;}	
+</style>

@@ -1,0 +1,105 @@
+<?php
+    $thHeight = 30;
+    $margin   = 12;
+    $thWidth  = ceil(($width * $thHeight) / $height);
+    $cssTop   = (count($list) > 1) ? 'top: ' . $height . 'px;' : '';
+?>
+<div class="slider-a-container" id="slider-a-container_<?php echo $id; ?>" style="width: <?php echo $width; ?>px; height: <?php echo $height + $thHeight + $margin; ?>px; overflow:hidden;">
+    <?php if (count($list) > 1) : ?>
+    <script type="text/javascript">
+        jqAdvSlider(document).ready(function(){
+            var sliderXandra<?php echo $id; ?> = new wpSliderXandra({
+                width: <?php echo $width; ?>,
+                height: <?php echo $height; ?>,
+                transTime: <?php echo $this->getOption('auto_play_speed', 500); ?>,
+                descShowTime: <?php echo $this->getOption('description_box_show_time', 800); ?>,
+                thumbWidth: <?php echo $thWidth; ?>,
+                timeSwitch: <?php echo $this->getOption('auto_play_interval', 4500); ?>,
+                allowAutoPlay: <?php echo $this->getOption('auto_play_enabled_on_start', 1); ?>
+            });
+            sliderXandra<?php echo $id; ?>.setup('#slider-a-container_<?php echo $id; ?>');
+        });
+    </script>
+    <?php endif; ?>
+
+    <?php $th = array(); $i = 0; ?>
+    <?php foreach ($list as $item) : ?>
+
+        <?php if ($item['isImage']) : ?>
+            <?php
+                $dscX               = $this->getSlideOption($item, 'description_box_x', '0');
+                $dscY               = $this->getSlideOption($item, 'description_box_y', '0');
+                $dscWidth           = $this->getSlideOption($item, 'description_box_width', $width - 50);
+                $shortDescription   = $this->getSlideOption($item, 'short_description', '');
+                $description        = $this->getSlideOption($item, 'description', '');
+                $header             = $this->getSlideOption($item, 'header', '');
+                $hBgColor           = $this->getSlideOption($item, 'header_bgcolor', '');
+                $hColor             = $this->getSlideOption($item, 'header_color', '');
+
+                $imageUrl           = Mage::helper('advancedslider')->getResizedImageUrl($item['image'], $width, $height);
+                $th[++$i]['color']  = Mage::helper('advancedslider')->getResizedImageUrl($item['image'], $thWidth, $thHeight);
+                $th[$i]['black']    = Mage::helper('advancedslider')->getResizedImageUrl($item['image'], $thWidth, $thHeight, true);
+                $content            = '<img title="' . $item['title'] . '" src="' . $imageUrl . '" alt="' . $imageUrl . '" width="' . $width . '" height="' . $height . '"/>';
+            ?>
+
+            <?php if ($item['link'] && $item['linkTarget']) : ?>
+                <a class="slide async-img slide_link" href="<?php echo $item['link']; ?>" target="<?php echo $item['linkTarget']; ?>" style="width: <?php echo $width; ?>px; height: <?php echo $height; ?>px; overflow:hidden;<?php echo $cssTop; ?>">
+                    <?php echo $content; ?>
+                </a>
+                <?php else: ?>
+                <a class="slide async-img" style="width: <?php echo $width; ?>px; height: <?php echo $height; ?>px;<?php echo $cssTop; ?>">
+                    <?php echo $content; ?>
+                </a>
+            <?php endif; ?>
+
+            <div class="desc">
+            <?php if ($header) : ?>
+                <div class="head">
+                    <?php echo $header; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($shortDescription || $description) : ?>
+                <div class="foot">
+                <?php if ($shortDescription) : ?>
+                    <h3 class="shortDescription">
+                        <?php echo $shortDescription; ?>
+                    </h3>
+                <?php endif; ?>
+                <?php if ($description) : ?>
+                    <div class="text">
+                        <?php echo $description; ?>
+                    </div>
+                <?php endif; ?>
+                </div><!-- foot -->
+                <span class="x"><?php echo $dscX; ?></span>
+                <span class="y"><?php echo $dscY; ?></span>
+                <span class="width"><?php echo $dscWidth; ?></span>
+                <span class="hbgcolor"><?php echo $hBgColor; ?></span>
+                <span class="hcolor"><?php echo $hColor; ?></span>
+            <?php endif; ?>
+            </div><!-- desc -->
+
+        <?php endif; ?>
+
+    <?php endforeach; ?>
+    <div class="thumb-bar" style="width: <?php echo $width; ?>px; height: <?php echo $thHeight + $margin; ?>px;">
+    <?php $class = ' first'; ?>
+    <?php foreach ($th as $key => $item) : ?>
+        <div class="thumb<?php echo $class; ?>" style="width: <?php echo $thWidth; ?>px; height: <?php echo $thHeight; ?>px;">
+            <div class="color">
+                <img src="<?php echo $item['color']; ?>" alt="<?php echo $item['color']; ?>" width="<?php echo $thWidth; ?>" height="<?php echo $thHeight; ?>" />
+            </div>
+            <div class="black">
+                <img src="<?php echo $item['black']; ?>" alt="<?php echo $item['black']; ?>" width="<?php echo $thWidth; ?>" height="<?php echo $thHeight; ?>" />
+            </div>
+        </div>
+        <?php $class = ' '; ?>
+    <?php endforeach; ?>
+    </div>
+    <?php if ($this->getOption('slideshow_control_buttons_show', 1)) : ?>
+    <div class="prev"></div>
+    <div class="pause"></div>
+    <div class="play"></div>
+    <div class="next"></div>
+    <?php endif; ?>
+</div>

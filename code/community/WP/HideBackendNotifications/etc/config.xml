@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <WP_HideBackendNotifications>
+            <version>1.0.4</version>
+        </WP_HideBackendNotifications>
+    </modules>
+    <global>
+        <helpers>
+            <hidebackendnotifications>
+                <class>WP_HideBackendNotifications_Helper</class>
+            </hidebackendnotifications>
+        </helpers>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <notification_window>WP_HideBackendNotifications_Block_Notification_Window</notification_window>
+                    <notification_toolbar>WP_HideBackendNotifications_Block_Notification_Toolbar</notification_toolbar>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <hide_backend_notifications translate="title" module="hidebackendnotifications">
+                                            <title><![CDATA[Web & People: External Backend Notifications Disabler]]></title>
+                                            <sort_order>2000</sort_order>
+                                        </hide_backend_notifications>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <hide_backend_notifications>
+            <general>
+                <enabled>1</enabled>
+                <only_popup>1</only_popup>
+                <version>1.0.4</version>
+            </general>
+        </hide_backend_notifications>
+    </default>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <about_webandpeople translate="title" module="hidebackendnotifications">
+                                            <title><![CDATA[Web & People: About Us]]></title>
+                                            <sort_order>1000</sort_order>
+                                        </about_webandpeople>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+        <blocks>
+            <hidebackendnotifications>
+                <class>WP_HideBackendNotifications_Block</class>
+            </hidebackendnotifications>
+        </blocks>
+    </global>
+</config>

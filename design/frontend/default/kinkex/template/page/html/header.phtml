@@ -1,0 +1,108 @@
+
+<div class="header-container">
+
+    <div class="header">
+
+        <?php if ($this->getIsHomePage()):?>
+
+        <h2 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h2>
+
+        <?php else:?>
+
+        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+
+        <?php endif?>
+        
+            
+
+        <div class="upper-header">
+
+		<?php echo $this->getChildHtml('header_cart') ?>
+
+		
+
+		<?php echo $this->getChildHtml('topLinksCart') ?>
+
+
+
+		<?php echo $this->getChildHtml('head_phone_block')?>
+
+	
+		<div class="sp"></div>
+        <div class="quick-access" style="z-index: -10; margin-top: 5px;">
+       	<ul class="links">
+        <?php if ($this->helper('customer')->isLoggedIn() ) { echo '<li class="last"><a href="https://www.kinkex.com/customer/account/" title="Salir">Mi Cuenta</a></li>'; } else { echo '<li class="first"><a href="https://www.kinkex.com/customer/account/login" title="Ingresar">Ingresar</a></li>'; } ?>
+        <li><a href="https://www.kinkex.com/sales/guest/form/" title="Mis Pedidos">Mis Pedidos</a></li>
+          
+          <?php if ($this->helper('customer')->isLoggedIn() ) { echo '<li class="last"><a href="https://www.kinkex.com/customer/account/logout/" title="Salir">Salir</a></li>'; } else { echo ''; } ?>
+          
+          </ul>
+          <br/><div class="welcome-msg" style="width: 100%; "><a href="http://www.kinkex.com/garantia-y-privacidad">Garantía y Privacidad</a>&nbsp;&nbsp;&nbsp;&nbsp;<?php if ($this->helper('customer')->isLoggedIn() ) { echo $this->getWelcome(); } else { echo ''; } ?></div>
+ 		
+        </div>
+
+	</div>
+     
+        <div class="search">
+        <!-- <div style="padding-right:22px; padding-top:12px; font-family:'Cabin', sans-serif; font-size:14px; color:#A6005E;">En búsqueda del bienestar sexual</div>-->
+        
+			<?php echo $this->getChildHtml('topSearch') ?> <a style="font-size: 20px; line-height: 20px; right: 0px; top: 11px; position: absolute; margin-right: -15px;" href="http://www.kinkex.com/catalogsearch/advanced/" alt="Búsqueda Avanzada" title="Búsqueda Avanzada">+</a>
+           <!--<?php echo $this->getChildHtml('advanced_search_link') ?>-->
+
+			<div class="sp"></div>
+           
+            </div>
+
+    <?php if($this->getChildHtml('store_switcher_header') || $this->getChildHtml('store_language') ) : ?>
+
+	<div class="switchers">
+
+		<div class="sw_bg_l">
+
+			<div class="sw_bg_r">
+			
+				<?php echo $this->getChildHtml('store_switcher_header') ?>
+
+				<?php echo $this->getChildHtml('store_language') ?>
+
+				<div class="sp"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<?php endif; ?>
+			
+
+        <?php echo $this->getChildHtml('topContainer'); ?>
+
+    </div>
+
+</div>
+
+<div align="center">
+<table  align="center" width="950px">
+<td>
+<div><?php echo $this->getChildHtml('topMenu') ?><div class="sp"></div></div>
+<div class="submenu">
+        <?php echo $this->getChildHtml('header.newsletter'); ?>
+	<div class="promo_sting">
+		<?php echo $this->getChildHtml('submenu_block')?>
+	<div class="sp"></div>	
+	</div>
+	<div class="sp"></div>
+</div></td>
+</table>
+</div>
+
+
+<div align="center">
+<table  align="center" width="950px">
+<td><div class="home_page_header_block">
+<?php echo $this->getChildHtml('home_page_header_block'); ?></div>
+</td>
+</table>
+
+</div>

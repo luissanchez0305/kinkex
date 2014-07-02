@@ -1,0 +1,135 @@
+<div class="sidebar">
+    <script type="text/javascript">
+    jqAdvSlider(document).ready(function(){
+        jqAdvSlider('.dc-widget-postslider-<?php echo $id; ?>').each(function(){
+            var interval = <?php echo $this->getOption('auto_play_interval', 3000); ?>;
+            var size = jqAdvSlider(this).find('.slide').length;
+            jqAdvSlider(this).find('.slide:first').css('display', 'block');
+
+            var slider = jqAdvSlider(this);
+            jqAdvSlider(this).data('dc_size', size);
+            jqAdvSlider(this).data('dc_current', 0);
+            jqAdvSlider(this).data('dc_block', false);
+
+            jqAdvSlider(this).find('.btn-bar a').click(function(){
+                var slider = jqAdvSlider(this).parent().parent();
+                var bar = jqAdvSlider(this).parent();
+                var index = jqAdvSlider(bar).find('a').index(this);
+                var prev = slider.data('dc_current');
+
+                if (index != prev)
+                {
+                    if (slider.data('dc_block')) return;
+                    slider.data('dc_block', true);
+
+                    clearTimeout(slider.data('dc_handle'));
+
+                    bar.find('a.btn-active').removeClass('btn-active').addClass('btn');
+                    bar.find('a:eq('+index+')').removeClass('btn').addClass('btn-active');
+
+                    slider.find('.slide:eq('+prev+')').animate({opacity: 0.0}, 300);
+
+                    slider.find('.slide').css('z-index', 0);
+                    slider.find('.slide:eq('+index+')').css('z-index', 1);
+                    slider.find('.slide:eq('+index+')').css('opacity', 0.0).css('display', 'block').animate({opacity: 1.0}, 800);
+                    slider.data('dc_current', index);
+                    slider.data('dc_block', false);
+
+                    if (slider.data('dc_size') > 1 && interval > 0)
+                    {
+                        var handle = setTimeout(function(){widget_minislider_autoplay(slider);}, <?php echo $this->getOption('auto_play_after_manual_slide_pause', 8000); ?>)
+                        slider.data('dc_handle', handle);
+                    }
+                }
+            });
+
+            function widget_minislider_autoplay(slider)
+            {
+                if (slider.data('dc_block')) return;
+                slider.data('dc_block', true);
+
+                var prev = slider.data('dc_current');
+                var size = slider.data('dc_size');
+                var next = prev + 1;
+                if (next >= size) next = 0;
+
+                slider.find('.btn-bar').find('a.btn-active').removeClass('btn-active').addClass('btn');
+                slider.find('.btn-bar').find('a:eq('+next+')').removeClass('btn').addClass('btn-active');
+
+                slider.find('.slide:eq('+prev+')').animate({opacity: 0.0}, 300);
+
+                slider.find('.slide').css('z-index', 0);
+                slider.find('.slide:eq('+next+')').css('z-index', 1);
+                slider.find('.slide:eq('+next+')').css('opacity', 0.0).css('display', 'block').animate({opacity: 1.0}, 600);
+                slider.data('dc_current', next);
+                slider.data('dc_block', false);
+
+                if (interval > 0)
+                {
+                    var handle = setTimeout(function(){widget_minislider_autoplay(slider);}, interval);
+                    slider.data('dc_handle', handle);
+                }
+            }
+
+            if (size > 1 && interval > 0)
+            {
+                var handle = setTimeout(function(){widget_minislider_autoplay(slider);}, interval);
+                jqAdvSlider(this).data('dc_handle', handle);
+            }
+        });
+    });
+    </script>
+    <div class="dc-widget-postslider dc-widget-postslider-<?php echo $id; ?>" style="width: <?php echo $width; ?>px; height: <?php echo $height; ?>px; overflow: hidden;">
+        <div class="slides-wrapper">
+            <?php foreach ($list as $item) : ?>
+                <?php if ($item['link'] && $item['linkTarget']) : ?>
+                    <a class="slide_link" href="<?php echo $item['link']; ?>" target="<?php echo $item['linkTarget']; ?>">
+                <?php endif; ?>
+
+                    <?php if ($item['isImage']) : ?>
+                        <div class="slide">
+                            <?php $imageUrl = Mage::helper('advancedslider')->getResizedImageUrl($item['image'], $width, $height); ?>
+                            <img title="<?php echo $item['title']; ?>" src="<?php echo $imageUrl; ?>" alt="<?php echo $imageUrl; ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>"/>
+                            <?php if ($description = $this->getSlideOption($item, 'short_description', '')) : ?>
+                                <?php
+                                    $widthSet = strtolower($this->getSlideOption($item, 'description_block_width', ''));
+                                    switch ($widthSet)
+                                    {
+                                        case 'auto':
+                                            $descWidth = 'width: auto;';
+                                            break;
+
+                                        case '':
+                                            $descWidth = 'width: ' . ($width - 36) . 'px;';
+                                            break;
+
+                                        default:
+                                            $descWidth = 'width: ' . $widthSet . 'px;';
+                                            break;
+                                    }
+                                    $textAlign = 'text-align: ' . $this->getSlideOption($item, 'description_text_align', 'left') . ';';
+                                    $position  = $this->getSlideOption($item, 'description_block_position', 'bottom') . ': 10px;';
+                                    $descStyle = $position . $descWidth . $textAlign;
+                                ?>
+                                <div class="desc" style="<?php echo $descStyle; ?>">
+                                    <?php echo $description; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+
+                <?php if ($item['link'] && $item['linkTarget']) : ?>
+                    </a>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+        <div class="btn-bar">
+            <?php $cnt = count($list); ?>
+            <?php $i = 1; ?>
+            <a class="btn-active"><?php echo $i; ?></a>
+            <?php for ($k = 2; $k <= $cnt; $k++) : ?>
+                <a class="btn"><?php echo $k; ?></a>
+            <?php endfor; ?>
+        </div>
+    </div>
+</div>

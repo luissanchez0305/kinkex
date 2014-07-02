@@ -1,0 +1,21 @@
+<div id="amazon-catselector-window-mask" style="display:none;"></div>
+<div id="amazon-catselector-window" class="message-popup catselector">
+    <div class="message-popup-head">
+        <h2><?php echo $this->__('Selecting categories of imported products') ?></h2>
+    </div>
+    <div class="message-popup-content">
+        <div class="amazon-load-stop" id="amazon-catselector-close-button">
+            <div class="amazon-tree-actions">
+                <a onclick="treeCollapseAll(); return false;" href="#"><?php echo $this->__('Collapse All') ?></a>
+                <span class="separator">|</span>
+                <a onclick="treeExpandAll(); return false;" href="#"><?php echo $this->__('Expand All') ?></a>
+            </div>
+            <button onclick="resetChecked(); return false;" class="scalable delete" type="button"><span><?php echo $this->__('Cancel') ?></span></button>
+            <button onclick="saveChecked(); return false;" class="scalable" type="button"><span><?php echo $this->__('Save and Close') ?></span></button>
+        </div>
+        <p></p>
+        <div class="message amazon-message-box">
+            <?php echo $this->getLayout()->createBlock('amazonimportproducts/adminhtml_categories')->toHtml(); ?>
+        </div>
+    </div>
+</div>

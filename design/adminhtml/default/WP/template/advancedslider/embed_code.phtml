@@ -1,0 +1,15 @@
+<?php
+    $sliderId   = $this->getData('sliderId');
+    $prefix     = mktime(true);
+    $code       = htmlentities('{{widget type="advancedslider/widget_slider" unique_id_prefix="' . $prefix . '" slider="' . $sliderId . '"}}');
+?>
+<p class="switcher">
+    <button class="scalable" type="button" onclick="wpSelectEmbedCode();"><span><?php echo $this->__('Select Embed Code');?></span></button>
+    <input id="embed_code" class="input-text embed_code" type="text" value="<?php echo $code; ?>" />
+</p>
+<script type="text/javascript">//<![CDATA[
+function wpSelectEmbedCode()
+{
+    $('embed_code').select();
+}
+//]]></script>

@@ -1,0 +1,106 @@
+<script type="text/javascript">$_SKIN_URL = '<?php echo $this->getSkinUrl(); ?>';</script>
+
+<?php if(Mage::getStoreConfig('quickcontact/email/dock_link')): ?>
+
+<div style="display:none;"><img alt="" src="<?php echo $this->getSkinUrl('quickcontact/images/btn_feedback_hover.png')?>" /></div>
+
+<div style="position:fixed; right:0px; top:200px;" class="bo_docklink"><a class="docklink" href="#dialog" name="modal"></a></div>
+
+<?php endif; ?>
+
+
+
+<div id="modalwindow">  
+
+	
+
+	<div id="dialog" class="window">	
+
+		
+
+		
+
+						
+
+		<div class="form-quick-contact">
+
+        <div style="padding-right:30px;">
+
+		<div class="title" style="padding-bottom:30px;"><h1 id="quick_contact_title">Contact Us</h1></div>
+
+		<form action="<?php echo $this->getUrl('quickcontact/index/post'); ?>" method="post" id="contactform">
+
+				
+
+				<div class="text"> 
+
+					<div class="info-txt"><span style="color:#ff0000;">*</span>Nombre:</div>
+
+					<div class="info-txt"><span style="color:#ff0000;">*</span>E-mail:</div>
+
+					<div class="info-txt">Teléfono:</div>
+
+				</div>
+
+								
+
+				<div class="input">
+
+					<input class="input-text textbox" value="<?php if(Mage::helper('customer')->isLoggedIn()) echo Mage::getSingleton('customer/session', array('name'=>'frontend'))->getCustomer()->getName()?>" type="text" name="name" id="name"/>
+
+					<input class="input-text textbox" value="<?php if(Mage::helper('customer')->isLoggedIn()) echo Mage::getSingleton('customer/session', array('name'=>'frontend'))->getCustomer()->getEmail()?>" type="text" name="email" id="email"/>
+
+					<input class="input-text textbox" type="text" name="telephone" id="telephone" value=""/>			
+
+				</div>
+
+				<div style="clear:both"><span></span></div>
+
+				<div class="text-area">
+
+					<p class="hm_content"><span style="color:#ff0000;">*</span>Mensaje</p>
+
+					<textarea name="comment" id="comment" class="input-text" rows="10" cols="64"></textarea>      
+
+				</div>
+
+					
+
+				<div class="submit">                
+
+<button id="submit" class="quickcontact-submit"><span><span>Enviar</span></span></button>
+
+<a href="#" class="close"><img alt="<?php echo Mage::helper('quickcontact')->__('Close')?>" src="<?php echo $this->getSkinUrl('quickcontact/images/close.jpg')?>" /></a> 
+
+
+
+</div>  
+
+				
+
+		</form>
+
+        </div>
+
+		</div>
+
+	
+
+	</div>
+
+	<div id="mask"></div>
+
+	
+
+	
+
+</div>
+
+
+
+
+
+
+
+
+

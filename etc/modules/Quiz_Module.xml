@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Quiz_Module>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Quiz_Module>
+    </modules>
+</config> 

@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<config>
+  <sections>
+    <payment>
+      <groups>
+        <paymentsensegateway translate="label">
+          <label>Paguelo Facil</label>
+          <comment>
+            
+          </comment>
+          <sort_order>670</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <title translate="label">
+              <label>Título</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </title>
+            <active translate="label">
+              <label>Activo</label>
+              <sort_order>20</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </active>
+            <debug translate="label">
+              <label>Debug</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>30</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </debug>
+            <order_status translate="label">
+              <label>Estatus de Orden</label>
+              <sort_order>40</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>paymentsensegateway/source_orderStatus</source_model>
+              <sort_order>50</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </order_status>
+            <merchantid translate="label">
+              <label>Clave WEB</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>60</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </merchantid>
+            <password translate="label">
+              <label>Descripción de Cobro</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>70</sort_order>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </password>
+            <presharedkey translate="label">
+              <label>Unifier</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>80</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </presharedkey>
+            <hashmethod translate="label">
+              <label>Hash Method</label>
+              <frontend_type>select</frontend_type>
+              <sort_order>81</sort_order>
+              <source_model>paymentsensegateway/source_hashMethod</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </hashmethod>
+            <paymentprocessordomain translate="label">
+              <label>Payment Processor Domain</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>100</sort_order>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </paymentprocessordomain>
+            <paymentprocessorport translate="label">
+              <label>Payment Processor Port</label>
+              <frontend_type>label</frontend_type>
+              <sort_order>110</sort_order>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </paymentprocessorport>
+            <payment_action translate="label">
+              <label>Payment Action</label>
+              <sort_order>120</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>paymentsensegateway/source_paymentAction</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione SALE]]>
+            </comment>
+            </payment_action>
+            <mode translate="label">
+              <label>Integración</label>
+              <sort_order>130</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>paymentsensegateway/source_paymentMode</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </mode>
+            <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione Transparent Redirect]]>
+            </comment>
+            <hostedpaymentactionurl>
+              <label>Hosted Payment Form Action URL</label>
+              <frontend_type>label</frontend_type>
+              <sort_order>131</sort_order>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </hostedpaymentactionurl>
+            <transparentredirectactionurl>
+              <label>Transparent Redirect Action URL</label>
+              <frontend_type>label</frontend_type>
+              <sort_order>132</sort_order>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </transparentredirectactionurl>
+            <serverpullresultactionurl>
+              <label>Server Pull Result Action URL</label>
+              <frontend_type>label</frontend_type>
+              <sort_order>133</sort_order>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+            </serverpullresultactionurl>
+            <cv2mandatory>
+              <label>CVV Mandatory </label>
+              <sort_order>140</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione YES]]>
+            </comment>
+            </cv2mandatory>
+            <address1mandatory>
+              <label>Direccion Mandatory</label>
+              <sort_order>150</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione YES]]>
+            </comment>
+          </address1mandatory>
+          <citymandatory>
+            <label>Ciudad Mandatory</label>
+            <sort_order>160</sort_order>
+            <frontend_type>select</frontend_type>
+            <source_model>adminhtml/system_config_source_yesno</source_model>
+            <show_in_default>0</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            
+            </citymandatory>
+            <postcodemandatory>
+              <label>PostCode Mandatory</label>
+              <sort_order>170</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+              
+            </postcodemandatory>
+            <statemandatory>
+              <label>State Mandatory</label>
+              <sort_order>180</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+             
+          </statemandatory>
+          <countrymandatory>
+            <label>Pais Mandatory</label>
+            <sort_order>190</sort_order>
+            <frontend_type>select</frontend_type>
+            <source_model>adminhtml/system_config_source_yesno</source_model>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione YES]]>
+            </comment>
+            </countrymandatory>
+            <resultdeliverymethod>
+              <label>Result Delivery Method</label>
+              <sort_order>200</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>paymentsensegateway/source_resultDeliveryMethod</source_model>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+             <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione Post]]>
+            </comment>
+            </resultdeliverymethod>
+      <customstockmanagementenabled>
+              <label>Custom Stock Management Enabled</label>
+              <sort_order>210</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <show_in_default>0</show_in_default>
+              <show_in_website>0</show_in_website>
+              <show_in_store>0</show_in_store>
+              <comment>
+                <![CDATA[<strong>Pre Configuracion</strong>: Seleccione YES]]>
+            </comment>
+            </customstockmanagementenabled>
+          </fields>
+        </paymentsensegateway>
+      </groups>
+    </payment>
+  </sections>
+</config>

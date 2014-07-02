@@ -1,0 +1,80 @@
+<?php
+/**
+ * GTM Data Helper
+ *
+ * @category    ShopGo
+ * @package     Shopgo_GTM
+ * @author      Ali Halabyah <ali@shopgo.me>
+ * @copyright   Copyright (c) 2014 ShopGo
+ * @license     http://opensource.org/licenses/osl-3.0.php Open Software License 3.0 (OSL-3.0)
+ */
+class Shopgo_GTM_Helper_Data extends Mage_Core_Helper_Abstract
+{
+	const XML_PATH_ACTIVE = 'google/gtm/active';
+	const XML_PATH_CONTAINER = 'google/gtm/containerid';
+
+	const XML_PATH_DATALAYER_TRANSACTIONS  = 'google/gtm/datalayertransactions';
+	const XML_PATH_DATALAYER_TRANSACTIONTYPE = 'google/gtm/datalayertransactiontype';
+	const XML_PATH_DATALAYER_TRANSACTIONAFFILIATION = 'google/gtm/datalayertransactionaffiliation';
+
+	const XML_PATH_DATALAYER_VISITORS = 'google/gtm/datalayervisitors';
+
+	/**
+	 * Determine if GTM is ready to use.
+	 *
+	 * @return bool
+	 */
+	public function isGTMAvailable()
+	{
+		return Mage::getStoreConfig(self::XML_PATH_CONTAINER) && Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE);
+	}
+
+	/**
+	 * Get the GTM container ID.
+	 *
+	 * @return string
+	 */
+	public function getContainerId() {
+		return Mage::getStoreConfig(self::XML_PATH_CONTAINER);
+	}
+
+	/**
+	 * Add transaction data to the data layer?
+	 *
+	 * @return bool
+	 */
+	public function isDataLayerTransactionsEnabled()
+	{
+		return Mage::getStoreConfig(self::XML_PATH_DATALAYER_TRANSACTIONS);
+	}
+
+	/**
+	 * Get the transaction type.
+	 *
+	 * @return string
+	 */
+	public function getTransactionType() {
+		if (!Mage::getStoreConfig(self::XML_PATH_DATALAYER_TRANSACTIONTYPE)) return '';
+		return Mage::getStoreConfig(self::XML_PATH_DATALAYER_TRANSACTIONTYPE);
+	}
+
+	/**
+	 * Get the transaction affiliation.
+	 *
+	 * @return string
+	 */
+	public function getTransactionAffiliation() {
+		if (!Mage::getStoreConfig(self::XML_PATH_DATALAYER_TRANSACTIONAFFILIATION)) return '';
+		return Mage::getStoreConfig(self::XML_PATH_DATALAYER_TRANSACTIONAFFILIATION);
+	}
+
+	/**
+	 * Add visitor data to the data layer?
+	 *
+	 * @return bool
+	 */
+	public function isDataLayerVisitorsEnabled()
+	{
+		return Mage::getStoreConfig(self::XML_PATH_DATALAYER_VISITORS);
+	}
+}

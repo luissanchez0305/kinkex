@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <WP_AdvancedSlider>
+            <version>1.5.5</version>
+        </WP_AdvancedSlider>
+    </modules>
+    <stores>
+        <admin>
+            <design>
+                <package>
+                    <name>default</name>
+                </package>
+                <theme>
+                    <default>WP</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
+    <adminhtml>
+        <layout>
+            <updates>
+                <advancedslider>
+                    <file>advancedslider.xml</file>
+                </advancedslider>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <advancedslider>
+                    <file>webandpeople/advancedslider.xml</file>
+                </advancedslider>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <advancedslider>
+                <use>admin</use>
+                <args>
+                    <module>WP_AdvancedSlider</module>
+                    <frontName>advancedslider</frontName>
+                </args>
+            </advancedslider>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <cms>
+                <children>
+                    <advancedslider translate="title" module="advancedslider">
+                        <title>WP: Advanced Slider</title>
+                        <sort_order>500</sort_order>
+                        <children>
+                            <add_slider translate="title" module="advancedslider">
+                                <title>Add Slider</title>
+                                <sort_order>4</sort_order>
+                                <action>advancedslider/sliders/new</action>
+                            </add_slider>
+                            <sliders translate="title" module="advancedslider">
+                                <title>Manage Sliders</title>
+                                <sort_order>5</sort_order>
+                                <action>advancedslider/sliders/index</action>
+                            </sliders>
+                            <slides translate="title" module="advancedslider">
+                                <title>Manage Slides</title>
+                                <sort_order>7</sort_order>
+                                <action>advancedslider/slides</action>
+                            </slides>
+                            <settings translate="title" module="advancedslider">
+                                <title>Settings</title>
+                                <sort_order>10</sort_order>
+                                <action>adminhtml/system_config/edit/section/advancedslider</action>
+                            </settings>
+                        </children>
+                    </advancedslider>
+                </children>
+            </cms>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <advancedslider translate="title" module="advancedslider">
+                                            <title><![CDATA[Web & People: Advanced Slider]]></title>
+                                            <sort_order>2000</sort_order>
+                                        </advancedslider>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <cms>
+                            <children>
+                                <advancedslider translate="title" module="advancedslider">
+                                    <title><![CDATA[Web & People: Advanced Slider]]></title>
+                                    <sort_order>2000</sort_order>
+                                    <children>
+                                        <add_slider translate="title" module="advancedslider">
+                                            <title>Add Slider</title>
+                                            <sort_order>4</sort_order>
+                                        </add_slider>
+                                        <sliders translate="title" module="advancedslider">
+                                            <title>Manage Sliders</title>
+                                            <sort_order>5</sort_order>
+                                        </sliders>
+                                        <slides translate="title" module="advancedslider">
+                                            <title>Manage Slides</title>
+                                            <sort_order>7</sort_order>
+                                        </slides>
+                                        <settings translate="title" module="advancedslider">
+                                            <title>Settings</title>
+                                            <sort_order>10</sort_order>
+                                        </settings>
+                                    </children>
+                                </advancedslider>
+                            </children>
+                        </cms>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+        <models>
+            <advancedslider>
+                <class>WP_AdvancedSlider_Model</class>
+                <resourceModel>advancedslider_mysql4</resourceModel>
+            </advancedslider>
+            <advancedslider_mysql4>
+                <class>WP_AdvancedSlider_Model_Mysql4</class>
+                <entities>
+                    <slides>
+                        <table>advancedslider_slides</table>
+                    </slides>
+                    <sliders>
+                        <table>advancedslider_sliders</table>
+                    </sliders>
+                </entities>
+            </advancedslider_mysql4>
+        </models>
+        <resources>
+            <advancedslider_setup>
+                <setup>
+                    <module>WP_AdvancedSlider</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </advancedslider_setup>
+            <advancedslider_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </advancedslider_write>
+            <advancedslider_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </advancedslider_read>
+        </resources>
+        <blocks>
+            <advancedslider>
+                <class>WP_AdvancedSlider_Block</class>
+            </advancedslider>
+        </blocks>
+        <helpers>
+            <advancedslider>
+                <class>WP_AdvancedSlider_Helper</class>
+            </advancedslider>
+        </helpers>
+    </global>
+    <default>
+        <advancedslider>
+            <general>
+                <include_source_files>standart,nicole,krista,xandra,trisha</include_source_files>
+                <version>1.5.5</version>
+            </general>
+        </advancedslider>
+    </default>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <about_webandpeople translate="title" module="advancedslider">
+                                            <title><![CDATA[Web & People: About Us]]></title>
+                                            <sort_order>1000</sort_order>
+                                        </about_webandpeople>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>

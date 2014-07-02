@@ -1,0 +1,38 @@
+	<?php 
+	$session = Mage::getSingleton('customer/session');
+	if($session->isLoggedIn()) {
+   	$customer = $session->getCustomer();
+   	echo "Hello! ";
+   	echo $customer->getName().'<br>';
+  	} ?>
+	<span style="color: red; font-weight: bold;"><?php echo "Your Given Quetion Ans(Answers) is(are) :"?></span><br/>
+	<?php 
+	$id = (int) $this->getRequest()->getParam('id');
+	$item = Mage::getModel('module/module')->load($id);
+	$quizvideotitle = $item->getQuizvideoTitle();
+	$collection= Mage::getModel('quetions/quetions')->getCollection();
+	$collection->addFilter('quizvideotitle',array('in' => $quizvideotitle));
+	$j=count($collection);//==2
+	$moduleid = $item->getModuleId();///6
+	$i=$moduleid;
+	for ($i=1; $i <= $j ; $i++) {
+		$queid += 1; 
+		 $moduleid+1;
+		$moduleid++ ;
+		if($_POST[$moduleid]){
+			
+		echo '('.$queid.')'.'  ';		
+		echo $q1= $_POST[$moduleid].'<br>';}
+	foreach ($collection as $demo) {
+	 $right= $demo['right_answer'];
+		
+	if($_POST[$moduleid]==$right){
+			echo "Your Answer Is Right".'<br>';
+		 			
+		}}}
+	?>
+	<br />
+	<br />
+	<span style="color: red; font-weight:bold; text-transform: capitalize;"><?php echo $this->__('Note:') ?></span>
+	<span style="font-weight:bold; text-transform: capitalize; color: blue;"><?php echo $this->__('If your answer is wrong then Right message will not display') ?></span>
+

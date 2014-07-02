@@ -1,0 +1,11 @@
+ <?php echo $this->getOGButtonsStyle(); ?>
+<script type="text/javascript">
+    AddShoppersTracking = <?php echo $this->getJSONConfig(); ?>;
+
+    var js = document.createElement('script'); js.type = 'text/javascript'; js.async = true; js.id = 'AddShoppers';
+    js.src = ('https:' == document.location.protocol ? 'https://shop.pe/widget/' : 'http://cdn.shop.pe/widget/') + 'widget_async.js#<?php echo $this->getShopId(); ?>';
+    document.getElementsByTagName("head")[0].appendChild(js);
+</script>
+<div style="display: none;">
+    <?php echo $this->getOGTags(); ?>
+</div>

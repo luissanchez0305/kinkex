@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <WP_ThemeLightshopPink>
+            <version>2.2.1</version>
+        </WP_ThemeLightshopPink>
+    </modules>
+    <global>
+        <helpers>
+            <themelightshopink>
+                <class>WP_ThemeLightshopPink_Helper</class>
+            </themelightshopink>
+        </helpers>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <theme_lightshopink translate="title" module="themelightshopink">
+                                            <title><![CDATA[Web & People: Theme Lightshop Pink]]></title>
+                                            <sort_order>1000</sort_order>
+                                        </theme_lightshopink>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <theme_lightshopink>
+            <general>
+                <version>2.2.1</version>
+            </general>
+        </theme_lightshopink>
+    </default>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <about_webandpeople translate="title" module="themelightshopink">
+                                            <title><![CDATA[Web & People: About Us]]></title>
+                                            <sort_order>1000</sort_order>
+                                        </about_webandpeople>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+        <blocks>
+            <themelightshopink>
+                <class>WP_ThemeLightshopPink_Block</class>
+            </themelightshopink>
+        </blocks>
+    </global>
+</config>

@@ -1,0 +1,55 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('General');?></h4>
+        <div class="form-buttons"></div>
+    </div>
+    <div class="fieldset">
+        <div class="hor-scroll">
+            <div class="box-left">
+                <?php echo $this->getChildHtml('general'); ?>
+                <?php echo $this->getChildHtml('style_description'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Style Options');?></h4>
+        <div class="form-buttons"></div>
+    </div>
+    <div class="fieldset">
+        <div class="hor-scroll">
+            <div class="box-left">
+                <?php echo $this->getChildHtml('options'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function updateFormOptions()
+    {
+        var sendData = {};
+        sendData.style = $('style').getValue();
+        sendData.id = '<?php echo $this->getSliderId(); ?>';
+        new Ajax.Request('<?php echo $this->getUrl('*/*/styleoptions') ?>', {
+            asynchronous: true,
+            method: 'post',
+            loaderArea: true,
+            parameters: sendData,
+            onComplete: function(transport) {
+                var responseJSON = transport.responseText.evalJSON();
+
+                if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect)
+                {
+                    setLocation(responseJSON.ajaxRedirect);
+                    return;
+                }
+
+                Element.replace('advancedslider_slider_options', responseJSON.options);
+                Element.replace('advancedslider_style_description', responseJSON.description);
+            }
+        });
+    }
+//]]>
+</script>

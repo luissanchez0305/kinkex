@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <mage_outsidelocal>
+            <module>0.0.1</module>
+        </mage_outsidelocal>
+    </modules>
+    <global>
+        <models>
+            <mage_outsidelocal>
+                <class>Mage_OutsideLocal_Model</class>
+            </mage_outsidelocal>
+        </models>
+    </global>
+    <!-- Default configuration -->
+    <default>
+        <carriers>
+            <mage_outsidelocal>
+                <active>1</active>
+                <!--
+                     This configuration should not be made visible
+                     to the administrator, because it specifies
+                     the model to be used for this carrier.
+                -->
+                <model>mage_outsidelocal/carrier</model>
+                <!--
+                    The title as referenced in the carrier class
+                -->
+                <title>Resto del pais</title>
+                <!--
+                    The sort order specifies the position that
+                    this carrier appears relative to the other
+                    carriers available in checkout.
+                -->
+                <sort_order>10</sort_order>
+                <!--
+                    Out of the box, Magento offers shipping
+                    carriers the ability to restrict themselves
+                    to specific countries. For this configuration
+                    option, 0 means allow all countries available,
+                    and 1 means allow all countries specified
+                    in the country list that we will add later
+                    in system.xml
+                -->
+                <sallowspecific>0</sallowspecific>
+            </mage_outsidelocal>
+        </carriers>
+    </default>
+</config>

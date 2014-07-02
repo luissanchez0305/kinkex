@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Magmodules.eu
+ * http://www.magmodules.eu
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to info@magmodules.eu so we can send you a copy immediately.
+ *
+ * @category    Magmodules
+ * @package     Magmodules_Kiyohsnippets
+ * @author      Magmodules <info@magmodules.eu)
+ * @copyright   Copyright (c) 2014 (http://www.magmodules.eu)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+	<modules>
+		<Magmodules_Kiyohsnippets>
+			<version>1.0.0</version>
+		</Magmodules_Kiyohsnippets>
+	</modules>
+	<global>
+		<helpers>
+			<kiyohsnippets>
+				<class>Magmodules_Kiyohsnippets_Helper</class>
+			</kiyohsnippets>
+		</helpers>
+		<blocks>
+			<kiyohsnippets>
+				<class>Magmodules_Kiyohsnippets_Block</class>
+			</kiyohsnippets>
+		</blocks>		
+	</global>
+	<frontend>
+		<layout>
+			<updates>
+				<magmodules_kiyohsnippets>
+					<file>magmodules_kiyohsnippets.xml</file>
+				</magmodules_kiyohsnippets>
+			</updates>
+		</layout>
+        <translate>
+            <modules>
+                <magmodules_kiyohsnippets>
+                    <files>
+                        <default>Magmodules_Kiyohsnippets.csv</default>
+                    </files>
+                </magmodules_kiyohsnippets>
+            </modules>
+        </translate>		
+	</frontend>
+	<adminhtml>
+        <translate>
+            <modules>
+                <magmodules_kiyohsnippets>
+                    <files>
+                        <default>Magmodules_Kiyohsnippets.csv</default>
+                    </files>
+                </magmodules_kiyohsnippets>
+            </modules>
+        </translate>
+    </adminhtml>
+	<default>
+		<kiyoh_snippets>
+			<general>
+				<enabled>0</enabled>
+			</general>
+		</kiyoh_snippets>
+	</default>
+</config>

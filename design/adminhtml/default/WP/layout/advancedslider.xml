@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout>
+    <advancedslider_sliders_index>
+        <reference name="content">
+            <block type="adminhtml/template" template="advancedslider/sliders.phtml" name="advancedslider.sliders" />
+            <block type="advancedslider/adminhtml_sliders" name="advancedslider.sliders.grid" />
+        </reference>
+    </advancedslider_sliders_index>
+    <advancedslider_slides_index>
+        <reference name="content">
+            <block type="advancedslider/adminhtml_slides" name="advancedslider.slides.grid" />
+        </reference>
+    </advancedslider_slides_index>
+    <advancedslider_slides_edit>
+        <update handle="editor"/>
+    </advancedslider_slides_edit>
+    <advancedslider_slides_edit>
+        <reference name="head">
+            <action method="addCss"><stylesheet>advancedslider/style.css</stylesheet></action>
+        </reference>
+    </advancedslider_slides_edit>
+    <advancedslider_sliders_edit>
+        <reference name="head">
+            <action method="addCss"><stylesheet>advancedslider/style.css</stylesheet></action>
+        </reference>
+    </advancedslider_sliders_edit>
+</layout>

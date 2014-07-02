@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <default>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>css/skin.css</stylesheet>
+      </action>
+    </reference>
+    <reference name="right">
+      <block type="cms/block" name="cms_right_info_block" before="-">
+        <action method="setBlockId">
+          <block_id>right_info_block</block_id>
+        </action>
+      </block>
+      <remove name="paypal.partner.right.logo"/>
+      <remove name="cart_sidebar"/>
+      <remove name="right.permanent.callout"/>
+      <remove name="right.reports.product.viewed"/>
+      <remove name="right.reports.product.compared"/>
+    </reference>
+    <reference name="footer">
+      <block type="cms/block" name="page_footer_block" before="-">
+        <action method="setBlockId">
+          <block_id>page_footer_block</block_id>
+        </action>
+      </block>
+    </reference>
+    <reference name="left">
+      <block type="cms/block" name="cms_left_info_block" before="-">
+        <action method="setBlockId">
+          <block_id>left_info_block</block_id>
+        </action>
+      </block>
+      <remove name="cart_sidebar"/>
+      <block type="reports/product_viewed"  name="right.reports.product.viewed.left" template="reports/product_viewed.phtml" />
+      <block type="reports/product_compared"  name="right.reports.product.compared.left" template="reports/product_compared.phtml" />
+      <block type="catalog/product_compare_sidebar" before="cart_sidebar" name="catalog.compare.sidebar.left" template="catalog/product/compare/sidebar.phtml"/>
+      <remove name="left.permanent.callout"/>
+      <!--remove name="left.newsletter"/-->
+    </reference>
+    <reference name="header">
+      <block type="checkout/cart_sidebar" name="header_cart" template="checkout/cart/sidebar_top.phtml" before="-">
+        <action method="addItemRender">
+          <type>simple</type>
+          <block>checkout/cart_item_renderer</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <action method="addItemRender">
+          <type>grouped</type>
+          <block>checkout/cart_item_renderer_grouped</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <action method="addItemRender">
+          <type>configurable</type>
+          <block>checkout/cart_item_renderer_configurable</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions"/>
+      </block>
+      <remove name="top.links"/>
+      <block type="page/template_links" name="advanced_search_link" as="advanced_search_link" template="page/template/alinks.phtml">
+        <action method="addLink" translate="label title" module="catalogsearch">
+          <label>Advanced Search</label>
+          <url helper="catalogsearch/getAdvancedSearchUrl"/>
+          <title>Advanced Search</title>
+        </action>
+      </block>
+      <block type="page/template_links" name="top.links.custom" as="topLinksCustom">\
+        <block type="checkout/links" name="checkout_cart_link">
+          <action method="addCheckoutLink"/>
+        </block>
+      </block>
+      <block type="page/template_links" template="page/template/clinks.phtml" id="top.links.cart" name="top.links.cart" as="topLinksCart">
+        <block type="wishlist/links" name="wishlist_link"/>
+        <action method="addLinkBlock">
+          <blockName>wishlist_link</blockName>
+        </action>
+      </block>
+      <block type="cms/block" name="quick_access_links">
+        <action method="setBlockId">
+          <block_id>quick_access_links</block_id>
+        </action>
+      </block>
+      <block type="cms/block" name="head_phone_block">
+        <action method="setBlockId">
+          <block_id>head_phone_block</block_id>
+        </action>
+      </block>
+      <block type="cms/block" name="submenu_block">
+        <action method="setBlockId">
+          <block_id>submenu_block</block_id>
+        </action>
+      </block>
+      <block type="cms/block" name="search_block_content" before="">
+        <action method="setBlockId">
+          <block_id>search_block_content</block_id>
+        </action>
+      </block>
+      <block type="page/switch" name="store_switcher_header" as="store_switcher_header" template="page/switch/stores.phtml"/>
+      <block type="newsletter/subscribe" name="header.newsletter"  as="header.newsletter" template="newsletter/header_subscribe.phtml"/>
+    </reference>
+    <reference name="footer">
+      <remove name="store_switcher"/>
+    </reference>
+    <!--Begin cart top-bar -->
+    <reference name="left">
+      <remove name="cart_sidebar"/>
+    </reference>
+    <reference name="right">
+      <remove name="cart_sidebar"/>
+    </reference>
+    <reference name="header">
+      <block type="checkout/cart_sidebar" name="cart_topbar" template="checkout/cart/topbar.phtml">
+        <action method="addItemRender">
+          <type>simple</type>
+          <block>checkout/cart_item_renderer</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <action method="addItemRender">
+          <type>grouped</type>
+          <block>checkout/cart_item_renderer_grouped</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+        <action method="addItemRender">
+          <type>configurable</type>
+          <block>checkout/cart_item_renderer_configurable</block>
+          <template>checkout/cart/sidebar/default.phtml</template>
+        </action>
+      </block>
+    </reference>
+    <!--End cart top-bar -->
+    <reference name="top.links.custom">
+      <action method="addLink" translate="label title" module="customer">
+        <label>My Account</label>
+        <url helper="customer/getAccountUrl"/>
+        <title>My Account</title>
+        <prepare/>
+        <urlParams/>
+        <position>10</position>
+      </action>
+    </reference>
+  </default>
+  <catalog_category_default translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="content">
+      <reference name="category.products">
+        <reference name="product_list">
+          <action method="setColumnCount">
+            <count>5</count>
+          </action>
+          <action method="setImageSize">
+            <size>135</size>
+          </action>
+        </reference>
+      </reference>
+    </reference>
+  </catalog_category_default>
+  <catalog_category_layered translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="content">
+      <reference name="category.products">
+        <reference name="product_list">
+          <action method="setColumnCount">
+            <count>5</count>
+          </action>
+          <action method="setImageSize">
+            <size>135</size>
+          </action>
+        </reference>
+      </reference>
+    </reference>
+  </catalog_category_layered>
+
+  <catalogsearch_result_index translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="content">
+      <reference name="search.result">
+        <reference name="search_result_list">
+          <action method="setColumnCount">
+            <count>5</count>
+          </action>
+          <action method="setImageSize">
+            <size>135</size>
+          </action>
+        </reference>
+      </reference>
+    </reference>
+  </catalogsearch_result_index>
+  <catalogsearch_advanced_index translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="content">
+      <reference name="search.result">
+        <reference name="search_result_list">
+          <action method="setColumnCount">
+            <count>5</count>
+          </action>
+          <action method="setImageSize">
+            <size>135</size>
+          </action>
+        </reference>
+      </reference>
+    </reference>
+  </catalogsearch_advanced_index>
+  <catalogsearch_advanced_result translate="label">
+    <update handle="page_two_columns_left"/>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+  </catalogsearch_advanced_result>
+  <contacts_index_index translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+  </contacts_index_index>
+  <review_product_list translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+  </review_product_list>
+  <review_product_view translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+  </review_product_view>
+  <sendfriend_product_send translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+  </sendfriend_product_send>
+  <tag_list_index translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+  </tag_list_index>
+  <catalog_product_view translate="label">
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/2columns-left.phtml</template>
+      </action>
+    </reference>
+    <reference name="left">
+      <block type="catalog/product_list_related" name="catalog.product.related.left" before="-" template="catalog/product/list/related.phtml"/>
+    </reference>
+  </catalog_product_view>
+  <customer_logged_in>
+    <reference name="top.links.custom">
+      <action method="addLink" translate="label title" module="customer">
+        <label>Log Out</label>
+        <url helper="customer/getLogoutUrl"/>
+        <title>Log Out</title>
+        <prepare/>
+        <urlParams/>
+        <position>100</position>
+      </action>
+    </reference>
+  </customer_logged_in>
+  <customer_logged_out>
+    <reference name="top.links.custom">
+      <action method="addLink" translate="label title" module="customer">
+        <label>Log In</label>
+        <url helper="customer/getLoginUrl"/>
+        <title>Log In</title>
+        <prepare/>
+        <urlParams/>
+        <position>100</position>
+      </action>
+    </reference>
+    <remove name="reorder"/>
+  </customer_logged_out>
+</layout>

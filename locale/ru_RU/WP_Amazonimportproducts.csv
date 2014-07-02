@@ -1,0 +1,4 @@
+"Help Tip: how to import products from Amazon.","Подсказка: как импортировать товары из Amazon"
+"Enter Amazon search params and click to button ""Search & Load Products"". The list displays the Amazon products. To import such items into your store, click ""Import Loaded Products"".","Введите параметры для поиска продуктов в Amazon и нажмите на кнопку ""Search & Load Products"". По окончании поиска в списке появятся товары из Amazon.<br />Чтобы импортировать найденные товары из списка в магазин, нажмите на кнопку ""Import Loaded Products""."
+"Help Tip: how to synchronize the information of products with Amazon.","Подсказка: как синхронизировать информацию о товарах с Amazon"
+"Simply click on the ""Synchronize Information manually"" button. For automatic synchronization, you must enable Magento Cron Job Tasks.","Просто нажмите на кнопку ""Synchronize Information manually"". Для автоматической синхронизации необходимо настроить Magento Cron Job Tasks."

@@ -1,0 +1,42 @@
+<?php
+    $imgHeight      = $this->getOption('image_height', $height);
+    $fixedHeight    = $this->getOption('content_height', 0);
+    $wrapHeight     = $fixedHeight ? $height : 'auto';
+?>
+<div class="tabs_block tab_<?php echo $id; ?>" style="width: <?php echo $width; ?>px; height: <?php echo $wrapHeight; ?>px; overflow: hidden;">
+    <div id="<?php echo $id; ?>_tabs" class="tabs_ul">
+        <ul class="tabs_trisha tabs_<?php echo $id; ?>">
+        <?php foreach ($list as $slideId => $item) : ?>
+            <li><a href="#fragment-<?php echo $id . '_' . $slideId; ?>"><?php echo $item['title']; ?></a></li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php foreach ($list as $slideId => $item) : ?>
+        <?php if ($item['isImage']) : ?>
+            <?php if ($item['link'] && $item['linkTarget']) : ?>
+            <a class="slide_link" href="<?php echo $item['link']; ?>" target="<?php echo $item['linkTarget']; ?>">
+            <?php endif; ?>
+            <?php $imageUrl = Mage::helper('advancedslider')->getResizedImageUrl($item['image'], $width, $imgHeight); ?>
+            <img id="fragment-<?php echo $id . '_' . $slideId; ?>" class="tabs_info" title="<?php echo $item['title']; ?>" src="<?php echo $imageUrl; ?>" alt="<?php echo $imageUrl; ?>" width="<?php echo $width; ?>" height="<?php echo $imgHeight; ?>" />
+            <?php if ($item['link'] && $item['linkTarget']) : ?>
+            </a>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($item['isHtml']) : ?>
+            <div id="fragment-<?php echo $id . '_' . $slideId; ?>" class="tabs_info"><?php echo $item['html']; ?></div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php if (count($list) > 1) : ?>
+    <script type="text/javascript">
+        jqAdvSlider(document).ready(function() {
+            jqAdvSlider("#<?php echo $id; ?>_tabs").tabs({
+                fxFade: true,
+                fxSpeed: '<?php echo $this->getOption('switch_speed', 'fast'); ?>',
+                selected: '1'
+            });
+
+            decorateGeneric($$('ul.tabs_<?php echo $id; ?> li'), ['odd','even','first','last']);
+        });
+    </script>
+    <?php endif; ?>
+</div>

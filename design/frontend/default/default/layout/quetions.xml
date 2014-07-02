@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <quetions_index_index>
+    	 <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="quetions/quetions" name="quetions" template="quetions/quetions.phtml" />
+        </reference>
+    </quetions_index_index>
+    
+    
+    <quetions_index_view>
+    	 <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="quetions/quetions" name="answer" template="quetions/answer.phtml" />
+        </reference>
+    </quetions_index_view>
+</layout> 

@@ -1,0 +1,46 @@
+<?php if (count($list) > 1) : ?>
+<?php
+    $showArrows     = $this->getOption('show_arrows', 0);
+    $showButtons    = $this->getOption('show_buttons', 1);
+    $arrowTop       = $height / 2 - 16;
+?>
+<script type="text/javascript">
+    jqAdvSlider(document).ready(function() {
+        var slider_<?php echo $id; ?> = jqAdvSlider('#<?php echo $id; ?>slider-content');
+        <?php if ($showButtons) : ?>slider_<?php echo $id; ?>.before('<div id="<?php echo $id; ?>_pager" class="stripNav">');<?php endif; ?>
+        slider_<?php echo $id; ?>.cycle({
+            fx:                 '<?php echo $this->getOption('play_effect', 'fade'); ?>',
+            pause:              <?php echo $this->getOption('pause_on_hover', 1); ?>,
+            pauseOnPagerHover:  <?php echo $this->getOption('pause_on_hover', 1); ?>,
+            random:             <?php echo $this->getOption('play_random', 0); ?>,
+            timeout:            <?php echo $this->getOption('auto_play_interval', 3000); ?>,
+            speed:              <?php echo $this->getOption('auto_play_speed', 3000); ?>,
+            pager:              '#<?php echo $id; ?>_pager',
+            next:               '#stripNavR_<?php echo $id; ?>',
+            prev:               '#stripNavL_<?php echo $id; ?>'
+        });
+    });
+</script>
+<?php endif; ?>
+<div class="slider-wrap" style="width: <?php echo $width; ?>px; height: <?php echo $height; ?>px; overflow: hidden;">
+    <?php if ($showArrows) : ?><div id="stripNavL_<?php echo $id; ?>" class="stripNavL" style="top: <?php echo $arrowTop; ?>px;"><a href="#"><?php echo $this->__('Left'); ?></a></div><?php endif; ?>
+    <div id="<?php echo $id; ?>slider-content" class="slider-wrap">
+    <?php foreach ($list as $item) : ?>
+        <?php if ($item['isImage']) : ?>
+            <?php if ($item['link'] && $item['linkTarget']) : ?>
+            <a class="slide_link" href="<?php echo $item['link']; ?>" target="<?php echo $item['linkTarget']; ?>">
+            <?php endif; ?>
+            <?php $imageUrl = Mage::helper('advancedslider')->getResizedImageUrl($item['image'], $width, $height); ?>
+            <img title="<?php echo $item['title']; ?>" src="<?php echo $imageUrl; ?>" alt="<?php echo $imageUrl; ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" />
+            <?php if ($item['link'] && $item['linkTarget']) : ?>
+            </a>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($item['isHtml']) : ?>
+            <div title="<?php echo $item['title']; ?>"><?php echo $item['html']; ?></div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    </div>
+    <?php if ($showArrows) : ?><div id="stripNavR_<?php echo $id; ?>" class="stripNavR" style="top: <?php echo $arrowTop; ?>px;"><a href="#"><?php echo $this->__('Right'); ?></a></div><?php endif; ?>
+</div>
+<div class="clear">&nbsp;</div>

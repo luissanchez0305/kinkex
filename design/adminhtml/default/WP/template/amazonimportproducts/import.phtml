@@ -1,0 +1,481 @@
+<?php
+    $configImport = Mage::helper('amazonimportproducts')->getConfigParam('import_params');
+    $savedImportSettings = Mage::getSingleton('admin/session')->getImportSettings();
+    if (!isset($savedImportSettings['import_params']['categories_type']))
+        $savedImportSettings['import_params']['categories_type'] = 'new';
+?>
+<div class="entry-edit">
+    <fieldset id="my-fieldset">
+        <p class="grand-total"><b><?php echo $this->__('Help Tip: how to import products from Amazon.')?></b></p>
+        <p><?php echo $this->__('Enter Amazon search params and click "Search & Load Products". The list displays the Amazon products. To import items into your store, click "Import Loaded Products".')?></p>
+        <p><?php echo $this->__('* Converted Price. If you see 0.00, the currency conversion system probably isn\'t adjusted.')?></p>
+        <?php $info = Mage::helper('amazonimportproducts')->emptySettingsInfo(); if ($info) echo $info; ?>
+    </fieldset>
+</div>
+<div class="entry-edit">
+    <form id="search_params_form" name="search_params_form">
+        <div>
+            <div class="entry-edit">
+                <div class="entry-edit-head collapseable">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Amazon Search Params')?></h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <div class="fieldset">
+                    <div class="hor-scroll">
+                        <div class="box-left">
+                            <table cellspacing="0" class="form-list">
+                                <tr>
+                                    <td class="label"><label for="amazon_search_params[local]"><?php echo $this->__('Local')?></label></td>
+                                    <td class="value">
+                                        <select onchange="updateRootCategoriesList();" name="amazon_search_params[local]" id="amazon_search_params[local]">
+                                        <?php
+                                            $locales = Mage::getModel('amazonimportproducts/source_local')->getOptionArray();
+                                            if (isset($savedImportSettings['amazon_search_params']['local']))
+                                                $localKeySelected = $savedImportSettings['amazon_search_params']['local'];
+                                            else
+                                            {
+                                                $keys = array_keys($locales);
+                                                $localKeySelected = array_shift($keys);
+                                            }
+                                            foreach ($locales as $local => $title)
+                                            {
+                                                $selected = '';
+                                                if ($localKeySelected == $local) $selected = ' selected="selected"';
+                                                echo '<option value="' . $local . '"' . $selected . '>' . $title . '</option>';
+                                            }
+                                        ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="file_local"><?php echo $this->__('Root Category')?></label></td>
+                                    <td class="value">
+                                        <select onchange="updateAdvancedParametersList();" name="amazon_search_params[category]" id="amazon_search_params[category]">
+                                            <?php
+                                                $categories = Mage::getModel('amazonimportproducts/source_categories')->getOptionArray($localKeySelected);
+                                                if (isset($savedImportSettings['amazon_search_params']['category']))
+                                                    $categoryKeySelected = $savedImportSettings['amazon_search_params']['category'];
+                                                else
+                                                {
+                                                    $keys = array_keys($categories);
+                                                    $categoryKeySelected = array_shift($keys);
+                                                }
+                                                foreach ($categories as $key => $title)
+                                                {
+                                                    $selected = '';
+                                                    if ($categoryKeySelected == $key) $selected = ' selected="selected"';
+                                                    echo '<option value="' . $key . '"' . $selected . '>' . $title . '</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                        <p class="note"><span><?php echo $this->__('Depends on Amazon Local. Update list <a href="javascript:;" onclick="reloadRootCategoriesList()">now</a> from <br /><a target="_blank" href="http://www.findbrowsenodes.com/">www.findbrowsenodes.com</a>')?></span></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="amazon_search_params[keywords]"><?php echo $this->__('Keywords')?></label></td>
+                                    <td class="value"><input type="text" class=" input-text" value="<?php echo isset($savedImportSettings['amazon_search_params']['keywords']) ? $savedImportSettings['amazon_search_params']['keywords'] : ''; ?>" name="amazon_search_params[keywords]" id="amazon_search_params[keywords]"></td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="amazon_search_params[available]"><?php echo $this->__('Only Available Products')?></label></td>
+                                    <td class="value">
+                                        <input type="checkbox" id="amazon_search_params[available]" name="amazon_search_params[available]" value="1" <?php echo isset($savedImportSettings['amazon_search_params']['available']) && $savedImportSettings['amazon_search_params']['available'] ? 'checked="checked"' : ''; ?>/>
+                                        <p class="note"><span><?php echo $this->__('Ignored for "All Products" of Root Category')?></span></p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table id="amazon_search_adv_params_box" cellspacing="0" class="form-list">
+                                <tr>
+                                    <td class="label"><label><b><?php echo $this->__('Advanced parameters')?></b></label></td>
+                                    <td class="value"><hr size="1" class="line" /></td>
+                                </tr>
+                                <?php $advParams = Mage::helper('amazonimportproducts')->getAdvancedParameters($localKeySelected, $categoryKeySelected); ?>
+                                <?php if (count($advParams)) : ?>
+                                <?php foreach($advParams as $param) : ?>
+                                <tr>
+                                    <td class="label"><?php echo $param['label']; ?></td>
+                                    <td class="value"><?php echo $param['field']; ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                                <?php else : ?>
+                                <tr>
+                                    <td class="label">&nbsp;</td>
+                                    <td class="value"><?php echo $this->__('No advanced parameters');?></td>
+                                </tr>
+                                <?php endif; ?>
+                            </table>
+                        </div>
+                        <table cellspacing="0" class="form-list box-left">
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[asin]"><?php echo $this->__('Amazon Standard Item Number (ASIN)')?></label></td>
+                                <td class="value">
+                                    <textarea cols="15" rows="2" class="textarea" name="amazon_search_params[asin]" id="amazon_search_params[asin]"><?php echo isset($savedImportSettings['amazon_search_params']['asin']) ? $savedImportSettings['amazon_search_params']['asin'] : ''; ?></textarea>
+                                    <p class="note"><span><?php echo $this->__('Use commas to divide multiple values.<br /><b>Note</b>: if it is not empty, other parameters, excluding "Local", are ignored')?></span></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="entry-edit">
+    <form id="import_params_form" name="import_params_form">
+        <div>
+            <div class="entry-edit">
+                <div class="entry-edit-head collapseable">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Import Params')?></h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <div class="fieldset">
+                    <div class="hor-scroll">
+                    <table cellspacing="0" class="form-list box-left">
+                        <tr>
+                            <td class="label"><label for="import_params[rootCategory]"><?php echo $this->__('Categories')?></label></td>
+                            <td class="value">
+                                <input type="radio"
+                                    name="import_params[categories_type]"
+                                    value="new"
+                                    <?php echo $savedImportSettings['import_params']['categories_type'] == 'new' ? ' checked="checked" ' : ''; ?>
+                                    id="categories_type_new"/>
+                                <label for="categories_type_new"><?php echo $this->__('Create categories on the basis of Amazon structure')?></label>
+                                <table cellspacing="0" class="form-list subtable">
+                                    <tr>
+                                        <td class="label">
+                                            <label for="import_params[rootCategory]"><?php echo $this->__('Default Root Catalog')?></label>
+                                            <select name="import_params[rootCategory]" id="import_params[rootCategory]">
+                                            <?php
+                                                $catalogs = Mage::getModel('amazonimportproducts/source_catalog')->toOptionArray();
+                                                if (isset($savedImportSettings['import_params']['rootCategory']))
+                                                    $keySelected = $savedImportSettings['import_params']['rootCategory'];
+                                                else
+                                                    $keySelected = Mage::getModel('amazonimportproducts/observer')->getProductRootCatalogPath();
+                                                foreach ($catalogs as $key => $name)
+                                                {
+                                                    $selected = '';
+                                                    if ($keySelected == $key) $selected = ' selected="selected"';
+                                                    echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <label for="import_params[defaultCategoryIsAnchor]"><?php echo $this->__('Default value of "Is Anchor" for new categories')?></label>
+                                            <select name="import_params[defaultCategoryIsAnchor]" id="import_params[defaultCategoryIsAnchor]">
+                                            <?php
+                                                $isAnchor = array('0' => $this->__('No'), '1' => $this->__('Yes'));
+                                                if (isset($savedImportSettings['import_params']['defaultCategoryIsAnchor']))
+                                                    $keySelected = $savedImportSettings['import_params']['defaultCategoryIsAnchor'];
+                                                else
+                                                    $keySelected = $configImport['category_is_anchor'];
+                                                foreach ($isAnchor as $key => $value)
+                                                {
+                                                    $selected = '';
+                                                    if ($keySelected == $key) $selected = ' selected="selected"';
+                                                    echo '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
+                                                }
+                                            ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p></p>
+                                <input type="radio"
+                                    name="import_params[categories_type]"
+                                    value="exists"
+                                    <?php echo $savedImportSettings['import_params']['categories_type'] == 'exists' ? ' checked="checked" ' : ''; ?>
+                                    id="categories_type_exists"/>
+
+                                <label for="categories_type_exists"><?php echo $this->__('Use existing categories')?></label>
+                                <table cellspacing="0" class="form-list subtable">
+                                    <tr>
+                                        <td class="label">
+                                            <dl id="selection_existing_categories"><?php echo isset($savedImportSettings['selection_existing_categories']) ? $savedImportSettings['selection_existing_categories'] : $this->__('Not selected')?></dl>
+                                            <p></p>
+                                            <a href="javascript:;" onclick="$('categories_type_exists').checked = true; openExistingCategoriesSelector();"><?php echo $this->__('Select from existing categories...')?></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <table cellspacing="0" class="form-list box-left">
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[defaultCondition]"><?php echo $this->__('Default Condition')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[defaultCondition]" id="amazon_search_params[defaultCondition]">
+                                    <?php
+                                        $locales = Mage::getModel('amazonimportproducts/source_condition')->toOptionArray();
+                                        if (isset($savedImportSettings['amazon_search_params']['defaultCondition']))
+                                            $keySelected = $savedImportSettings['amazon_search_params']['defaultCondition'];
+                                        else
+                                            $keySelected = $configImport['product_condition'];
+                                        foreach ($locales as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Enables you to specify the condition of an desired product')?></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[defaultPrice]"><?php echo $this->__('Default Price')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[defaultPrice]" id="amazon_search_params[defaultPrice]">
+                                    <?php
+                                        $locales = Mage::getModel('amazonimportproducts/source_price')->toOptionArray();
+                                        if (isset($savedImportSettings['amazon_search_params']['defaultPrice']))
+                                            $keySelected = $savedImportSettings['amazon_search_params']['defaultPrice'];
+                                        else
+                                            $keySelected = $configImport['product_price'];
+                                        foreach ($locales as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Product price selected from prices offered by sellers')?></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[defaultImportStatus]"><?php echo $this->__('Default Import Status')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[defaultImportStatus]" id="amazon_search_params[defaultImportStatus]">
+                                    <?php
+                                        $locales = Mage::getModel('amazonimportproducts/source_status')->toOptionArray();
+                                        if (isset($savedImportSettings['amazon_search_params']['defaultImportStatus']))
+                                            $keySelected = $savedImportSettings['amazon_search_params']['defaultImportStatus'];
+                                        else
+                                            $keySelected = $configImport['load_product_status'];
+                                        foreach ($locales as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Status of products that are downloaded from Amazon')?></span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="amazon_search_params[sku]"><?php echo $this->__('SKU')?></label></td>
+                                <td class="value">
+                                    <select name="amazon_search_params[sku]" id="amazon_search_params[sku]">
+                                    <?php
+                                        $sku = Mage::getModel('amazonimportproducts/source_assku')->toOptionArray();
+                                        if (isset($savedImportSettings['amazon_search_params']['sku']))
+                                            $keySelected = $savedImportSettings['amazon_search_params']['sku'];
+                                        else
+                                            $keySelected = $configImport['load_product_sku'];
+                                        foreach ($sku as $key => $name)
+                                        {
+                                            $selected = '';
+                                            if ($keySelected == $key) $selected = ' selected="selected"';
+                                            echo '<option value="' . $key . '"' . $selected . '>' . $name . '</option>';
+                                        }
+                                    ?>
+                                    </select>
+                                    <p class="note"><span><?php echo $this->__('Use one of the above parameters as a SKU of books that are downloaded from Amazon. Multiple values are possible. Next value is only used when the previous one is empty.<br />ASIN - Amazon Standard Item Number<br />EAN - European Article Number<br />ISBN - International Standard Book Number')?></span></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function clearImportList()
+    {
+        if (!confirm('<?php echo $this->__('Are you sure?'); ?>')) return false;
+        new Ajax.Request('<?php echo $this->getUrl('*/*/clear'); ?>', {
+            asynchronous: true,
+            method: 'post',
+            loaderArea: false,
+            parameters: getImportFormValues(),
+            onComplete: function(transport) {
+                var responseJSON = transport.responseText.evalJSON();
+
+                if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect)
+                {
+                    setLocation(responseJSON.ajaxRedirect);
+                    return;
+                }
+
+                if (responseJSON.redirect) setLocation(responseJSON.redirect);
+            }
+        });
+    }
+
+    function SearchParamsFormSubmit()
+    {
+        wpAmazonImportPopupParams.url = '<?php echo $this->getUrl('*/*/load') ?>';
+        wpAmazonImportPopupParams.title = '<?php echo $this->__('Search & Load Products'); ?>';
+        wpAmazonImportPopupParams.startText = '<?php echo $this->__('Processing...') ?>';
+        wpAmazonImportPopupParams.hideStopButton = false;
+        wpAmazonImportPopupParams.data = getImportFormValues();
+        wpAmazonImportPopupParams.data.startProcess = 1;
+        wpOpenImportAmazonPopup();
+    }
+
+    function ImportProductsList(force, ids)
+    {
+        if (typeof force == 'undefined') force = 0;
+        if (typeof ids == 'undefined') ids = '';
+        var sendData = getImportFormValues();
+        sendData.force = force;
+        sendData.amazonimportproducts = ids;
+        sendData.startProcess = 1;
+        wpAmazonImportPopupParams.url = '<?php echo $this->getUrl('*/*/process') ?>';
+        wpAmazonImportPopupParams.title = '<?php echo $this->__('Import Loaded Products'); ?>';
+        wpAmazonImportPopupParams.startText = '<?php echo $this->__('Processing...') ?>';
+        wpAmazonImportPopupParams.hideStopButton = false;
+        wpAmazonImportPopupParams.data = sendData;
+        wpOpenImportAmazonPopup();
+    }
+
+    function getImportFormValues()
+    {
+        var params = {};
+        var fields = $('search_params_form').getElements();
+        for(var i=0; i<fields.length; i++)
+        {
+            if (!fields[i].name) continue;
+            if (params[fields[i].name]) continue;
+            params[fields[i].name] = fields[i].getValue();
+        }
+        var fields = $('import_params_form').getElements();
+        for(var i=0; i<fields.length; i++)
+        {
+            if (!fields[i].name) continue;
+            if (params[fields[i].name]) continue;
+            params[fields[i].name] = fields[i].getValue();
+        }
+        params[$('amazon_import_product_categories').name] = $('amazon_import_product_categories').getValue();
+        params['selection_existing_categories'] = $('selection_existing_categories').innerHTML;
+        return params;
+    }
+
+    function updateRootCategoriesList(force)
+    {
+        if (typeof force == 'undefined') force = 0;
+        var sendData = getImportFormValues();
+        sendData.local = $('amazon_search_params[local]').getValue();
+        sendData.force = force;
+        new Ajax.Request('<?php echo $this->getUrl('*/*/catlocal') ?>', {
+            asynchronous: true,
+            method: 'post',
+            loaderArea: true,
+            parameters: sendData,
+            onComplete: function(transport) {
+                var responseJSON = transport.responseText.evalJSON();
+
+                if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect)
+                {
+                    setLocation(responseJSON.ajaxRedirect);
+                    return;
+                }
+
+                if (responseJSON.html)
+                {
+                    Element.replace('amazon_search_params[category]', responseJSON.html);
+                    updateAdvancedParametersList();
+                }
+            }
+        });
+    }
+
+    function updateAdvancedParametersList()
+    {
+        var sendData = getImportFormValues();
+        sendData.local = $('amazon_search_params[local]').getValue();
+        sendData.rootCategory = $('amazon_search_params[category]').getValue();
+        new Ajax.Request('<?php echo $this->getUrl('*/*/advparams') ?>', {
+            asynchronous: true,
+            method: 'post',
+            loaderArea: true,
+            parameters: sendData,
+            onComplete: function(transport) {
+                var responseJSON = transport.responseText.evalJSON();
+
+                if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect)
+                {
+                    setLocation(responseJSON.ajaxRedirect);
+                    return;
+                }
+
+                if (responseJSON.html)
+                {
+                    Element.replace('amazon_search_adv_params_box', responseJSON.html);
+                }
+            }
+        });
+    }
+
+    function reloadRootCategoriesList()
+    {
+        if (!confirm('<?php echo $this->__('Are you sure?'); ?>')) return false;
+        updateRootCategoriesList(1);
+    }
+
+    window.onload = function(){
+        amazonimportproductsGrid_massactionJsObject.apply = function() {
+            if(varienStringArray.count(this.checkedString) == 0) {
+                alert(this.errorText);
+                return;
+            }
+
+            var item = this.getSelectedItem();
+            if(!item) {
+                this.validator.validate();
+                return;
+            }
+            this.currentItem = item;
+            var fieldName = (item.field ? item.field : this.formFieldName);
+            var fieldsHtml = '';
+
+            if(this.currentItem.confirm && !window.confirm(this.currentItem.confirm)) {
+                return;
+            }
+
+            this.formHiddens.update('');
+            new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: fieldName, value: this.checkedString}));
+            new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: 'massaction_prepare_key', value: fieldName}));
+
+            if(!this.validator.validate()) {
+                return;
+            }
+
+            if (item.url && item.url == 'forceImport')
+            {
+
+                ImportProductsList(1, this.getCheckedValues());
+                return false;
+
+            } else {
+
+                if(this.useAjax && item.url) {
+                    new Ajax.Request(item.url, {
+                        'method': 'post',
+                        'parameters': this.form.serialize(true),
+                        'onComplete': this.onMassactionComplete.bind(this)
+                    });
+                } else if(item.url) {
+                    this.form.action = item.url;
+                    this.form.submit();
+                }
+
+            }
+        }
+    };
+//]]>
+</script>

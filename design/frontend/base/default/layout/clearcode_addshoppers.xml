@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+    <checkout_onepage_success>
+        <reference name="before_body_end">
+            <remove name="addshoppers_tracking"/>
+            <block type="addshoppers/conversion" name="addshoppers_conversion" as="addshoppers_conversion" template="clearcode_addshoppers/conversion.phtml" />
+        </reference>
+    </checkout_onepage_success>
+    <default>
+        <reference name="head">
+            <block type="addshoppers/head" name="addshoppers_head" as="addshoppers_head"  template="clearcode_addshoppers/head.phtml" />
+        </reference>
+        <reference name="top.container">
+            <block type="addshoppers/buttons" name="addshoppers_buttons" as="addshoppers_buttons" />
+        </reference>
+        <reference name="before_body_end">
+            <block type="addshoppers/tracking" name="addshoppers_tracking" as="addshoppers_tracking" template="clearcode_addshoppers/tracking.phtml" />
+        </reference>
+    </default>
+</layout>

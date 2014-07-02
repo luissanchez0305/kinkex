@@ -1,0 +1,48 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('General');?></h4>
+        <div class="form-buttons"></div>
+    </div>
+    <div class="fieldset fieldset-wide">
+        <div class="hor-scroll">
+            <?php echo $this->getChildHtml('general'); ?>
+        </div>
+    </div>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Main Contents');?></h4>
+        <div class="form-buttons"></div>
+    </div>
+    <div class="fieldset fieldset-wide">
+        <div class="hor-scroll">
+            <?php echo $this->getChildHtml('type'); ?>
+        </div>
+        <div class="hor-scroll" id="slide_type_image" style="<?php if ($this->isHtmlType()) : echo 'display:none;'; endif;?>">
+            <?php echo $this->getChildHtml('type_image'); ?>
+        </div>
+        <div class="hor-scroll" id="slide_type_html" style="<?php if (!$this->isHtmlType()) : echo 'display:none;'; endif;?>">
+            <?php echo $this->getChildHtml('type_html'); ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    var typeHtml = '<?php echo WP_AdvancedSlider_Model_Source_Type::TYPE_HTML;?>';
+
+    function updateFormOptions()
+    {
+        var slideType = $('type').getValue();
+        if (slideType == typeHtml)
+        {
+            $('slide_type_image').hide();
+            $('slide_type_html').show();
+        }
+        else
+        {
+            $('slide_type_html').hide();
+            $('slide_type_image').show();
+        }
+    }
+//]]>
+</script>

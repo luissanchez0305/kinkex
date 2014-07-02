@@ -1,0 +1,119 @@
+Action,Acción
+Add Category,Agregar categoría
+Add Comment,Agregar comentario
+Add Post,Agregar post
+Advanced Options,Opciones avanzadas
+Advanced Post Options,Opciones avanzadas de posts
+Approve,Aprobar
+Are you sure?,Está seguro?
+Auto Approve Comments,Auto-aprobar comentarios
+Blog,Blog
+Blog Comment Manager,Administrador de Comentarios del Blog
+Blog Manager,Administrador del Blog
+Blog Post Manager,Administrador de Posts del Blog
+Blog Post Options,Opciones de Posts del Blog
+Blog Settings,Configuración del Blog
+Blog Title,Título del Blog
+Categories,Categorías
+Category,Categoría
+Category does not exist,La categoría no existe
+Category Information,Información de la Categoría
+Category Manager,Administrador de Categorías
+Change status,Cambiar estatus
+click here,clic aquí
+Comment,Comentario
+Comment Information,Información de Comentario
+Comment was approved,El cmentario fue aprobado
+Comment was successfully deleted,El comentario ha sido eliminado correctamente
+Comment was successfully saved,El comentario ha sido guardado correctamente
+Comment was unapproved,El comentario fue desaprobado
+Comments,Comentarios
+Comments are not enabled.,Los comentarios no están habilitados.
+Content,Contenido
+Created,Creado
+Delete,Eliminado
+Delete Category,Eliminar Categoría
+Delete Comment,Eliminar Comentario
+Delete Post,Eliminar Post
+Description,Descripción
+Disabled,Deshabilitado
+Email Address,Email
+Edit,Editar
+Edit Category '%s',Editar Categoría '%s'
+Edit Comment By '%s',Editar Comentario Por '%s'
+Edit Post '%s',Editar Post '%s'
+eg: YYYY-MM-DD HH:MM:SS Leave blank to use current date,ej: YYYY-MM-DD HH:MM:SS Deje en blanco para usar la fecha actual
+Email,Email
+Enable Blog RSS Feed,Habilitar RSS Feed del blog
+Enable Comments,Habilitar comentarios
+Enable Footer Link,Habilitar Link en Pié de Página
+Enable Left Menu,Habilitar Menú de Izquierda
+Enable Right Menu,Habilitar Menú de Derecha
+Enable Top Link,Habilitar Link Superior
+Enabled,Habilitado
+Frequency,Frecuencia
+Go to Home Page,Ir a la página de inicio
+Google Sitemap,Google Sitemap
+Hidden,Oculto
+Home,Inicio
+ID,ID
+Identifier,Identificador
+Keywords,Palabras clave
+Leave blank to use current user name,Deje en blanco para utilizar el Usuario actual
+Login Required to Comment,Inicie sesión para comentar
+Manage Categories,Administrar Categorías
+Manage Comments,Administrar Comentarios
+Manage Posts,Administrar Posts
+Manage Products,Administrar Productos
+Meta Data,Meta Data
+Meta Description,Meta Description
+Meta Keywords,Meta Keywords
+Name,Nombre
+No Posts in this Category.,No existen posts en esta categoría.
+Page Layout,Diseño de Página
+Please select categories,Por favor seleccione las categorías
+Please select comment(s),Por favor seleccione los commentarios
+Please select post(s),Por favor seleccione un post
+Post was successfully deleted,El post ha sido eliminado correctamente
+Post does not exist,El post no existe
+Post Identifier already exist.,El Identificador de Post ya existe.
+Post Identifier cannot consist only of numbers.,El Identificador de Post no puede contener números únicamente.
+Post information,Información del Post
+Post was successfully deleted,El post ha sido eliminado correctamente
+Post was successfully saved,El post ha sido guardado correctamente
+Posted By,Escrito por
+Poster,Poster
+Posts Per Page,Posts por página
+Priority,Prioridad
+Recent Posts,Posts Recientes
+Return to,Regresar a
+Route to Blog,Ruta hacia el Blog
+RSS Feed Image,Imagen de RSS Feed
+RSS Posts to Show, Posts para mostrar en RSS 
+Save Category,Guardar Categoría
+Save Comment,Guardar Comentario
+Save Post,Guardar Post
+Show Breadcrumbs,Mostrar ruta
+Sort Order,Ordenar por
+Status,Estado
+Store View,Vista de tienda
+Submit Comment,Enviar comentario
+Summary Character Count,Contador de caracteres
+Title,Título
+to log in,para iniciar sesión
+Total of %d comment(s) were successfully approved,Un total de %d comentario(s) ha(n) sido aprobado(s)
+Total of %d comment(s) were successfully unapproved,Un total de %d comentario(s) ha(n) sido desaprobado(s)
+Total of %d comments(s) were successfully deleted,Un total de %d comentario(s) ha(n) sido eliminado(s) correctamente
+Total of %d record(s) were successfully deleted,Un total de %d registro(s) ha(n) sido eliminado(s) correctamente
+Total of %d record(s) were successfully updated,Un total de %d registro(s) ha(n) sido actualizados(s) correctamente
+Unable to find category to save,Imposible encontrar categoría para guardar
+Unable to find comment to save,Imposible encontrar comentario para guardar
+Unable to find post to save,Imposible encontrar post para guardar
+"Unable to submit your comment. Please, try again later","No se ha podido enviar su comentario. Por favor intente más tarde."
+Unapprove,Desaprobar
+Updated,Actualizado
+User,Usuario
+You must be logged in to comment.,Tiene que iniciar sesión para comentar.
+You must be logged in to post a comment.,Tiene que iniciar sesión para escribir un comentario.
+Your comment has been submitted and is awaiting approval.,Su comentario ha sido enviado correctamente y está esperando aprobación.
+Your comment has been submitted.,Su comentario ha sido enviado.

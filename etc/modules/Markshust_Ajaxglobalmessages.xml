@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ * @category    Markshust
+ * @package     Markshust_Ajaxglobalmessages
+ * @author      Mark Shust <mark@shust.com>
+ * @license     http://sam.zoy.org/wtfpl/
+ -->
+<config>
+    <modules>
+        <Markshust_Ajaxglobalmessages>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Markshust_Ajaxglobalmessages>
+    </modules>
+</config>

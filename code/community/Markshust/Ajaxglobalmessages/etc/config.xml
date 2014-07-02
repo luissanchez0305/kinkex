@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ * @category    Markshust
+ * @package     Markshust_Ajaxglobalmessages
+ * @author      Mark Shust <mark@shust.com>
+ * @license     http://sam.zoy.org/wtfpl/
+ -->
+<config>
+    <modules>
+        <Markshust_Ajaxglobalmessages>
+            <version>1.1.1</version>
+        </Markshust_Ajaxglobalmessages>
+    </modules>
+    
+    <frontend>
+        <layout>
+            <updates>
+                <markshust_ajaxglobalmessages>
+                    <file>markshust/ajaxglobalmessages.xml</file>
+                </markshust_ajaxglobalmessages>
+            </updates>
+        </layout>
+    </frontend>
+</config>

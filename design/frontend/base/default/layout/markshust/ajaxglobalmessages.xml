@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ * @category    Markshust
+ * @package     Markshust_Ajaxglobalmessages
+ * @author      Mark Shust <mark@shust.com>
+ * @license     http://sam.zoy.org/wtfpl/
+ -->
+<layout>
+    <default>
+        <reference name="root">
+            <remove name="global_messages"/>
+        </reference>
+        
+        <reference name="after_body_start">
+            <block type="core/template" name="markshust_ajaxglobalmessages" template="markshust/ajaxglobalmessages.phtml" before="-" />
+        </reference>
+        
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/markshust/ajaxglobalmessages.css</stylesheet></action>
+        </reference>
+    </default>
+</layout>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<widgets>
+    <advancedslider_slider type="advancedslider/widget_slider" translate="name description" module="advancedslider">
+        <name><![CDATA[Web & People: Advanced Slider]]></name>
+        <description>Insert an Advanced Slider</description>
+        <parameters>
+            <slider translate="label">
+                <label>Slider</label>
+                <visible>1</visible>
+                <required>1</required>
+                <type>select</type>
+                <source_model>advancedslider/widget_source_sliders</source_model>
+            </slider>
+            <unique_id_prefix>
+                <label>Unique Id Prefix</label>
+                <visible>1</visible>
+                <required>0</required>
+                <type>advancedslider/adminhtml_widget_form_renderer_uniqueidprefix</type>
+            </unique_id_prefix>
+        </parameters>
+    </advancedslider_slider>
+</widgets>

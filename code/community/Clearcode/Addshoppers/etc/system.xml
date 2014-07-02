@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <addshoppers translate="label" module="addshoppers">
+            <label>AddShoppers</label>
+            <class>addshoppers-tab</class>
+            <tab>catalog</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Configuration</label>
+            		<frontend_model>addshoppers/adminform</frontend_model>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store> 
+                </settings>
+            </groups>
+        </addshoppers>
+    </sections>
+</config>

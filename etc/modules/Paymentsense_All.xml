@@ -1,0 +1,19 @@
+<config>
+  <modules>
+    <Paymentsense_Paymentsensegateway>
+      <active>true</active>
+      <codePool>local</codePool>
+      <depends>
+        <Mage_Payment />
+      </depends>
+    </Paymentsense_Paymentsensegateway>
+    <Paymentsense_Checkout>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Paymentsense_Checkout>
+    <Paymentsense_Sales>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Paymentsense_Sales>
+  </modules>
+</config>

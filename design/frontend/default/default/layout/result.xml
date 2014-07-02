@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <result_index_index>
+        <reference name="content">
+            <block type="result/result" name="result" template="result/result.phtml" />
+        </reference>
+    </result_index_index>
+</layout> 

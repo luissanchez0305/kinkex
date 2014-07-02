@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<system>
+			<children>
+				<tools>
+					<children>
+						<smushit>
+							<title>Smush.it</title>
+							<action>*/smushit</action>
+						</smushit>
+					</children>
+				</tools>
+			</children>
+		</system>
+	</menu>
+</config>

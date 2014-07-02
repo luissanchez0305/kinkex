@@ -1,0 +1,37 @@
+<div class="entry-edit">
+    <fieldset id="my-fieldset">
+        <p class="grand-total"><b><?php echo $this->__('Help Tip: how to synchronize product information with Amazon.'); ?></b></p>
+        <p><?php echo $this->__('Simply click on the "Synchronize Information manually" button. For automatic synchronization, you must enable Magento Cron Job Tasks.'); ?></p>
+        <?php echo Mage::helper('amazonimportproducts')->syncParamsInfo(); ?>
+        <?php $info = Mage::helper('amazonimportproducts')->emptySettingsInfo(); if ($info) echo $info; ?>
+    </fieldset>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function SyncProductsList()
+    {
+        wpAmazonImportPopupParams.url = '<?php echo $this->getUrl('*/*/process') ?>';
+        wpAmazonImportPopupParams.title = '<?php echo $this->__('Synchronize information manually'); ?>';
+        wpAmazonImportPopupParams.startText = '<?php echo $this->__('Processing...') ?>';
+        wpAmazonImportPopupParams.hideStopButton = false;
+        wpAmazonImportPopupParams.data = {'startProcess': 1};
+        wpOpenImportAmazonPopup();
+    }
+    function ReloadProduct(productId)
+    {
+        if (!confirm('<?php echo $this->__('Are you sure?'); ?>')) return false;
+        wpAmazonImportPopupParams.url = '<?php echo $this->getUrl('*/*/reload') ?>';
+        wpAmazonImportPopupParams.title = '<?php echo $this->__('Reloading all informations of the product'); ?>' + ': ' + productId;
+        wpAmazonImportPopupParams.startText = '<?php echo $this->__('Reloading...') ?>';
+        wpAmazonImportPopupParams.hideStopButton = true;
+        wpAmazonImportPopupParams.data = {'productId': productId};
+        wpAmazonImportPopupParams.once = true;
+        wpOpenImportAmazonPopup();
+    }
+    function ResetProductsParking()
+    {
+        if (!confirm('<?php echo $this->__('Are you sure?'); ?>')) return false;
+        setLocation('<?php echo $this->getUrl('*/*/resetparking'); ?>');
+    }
+//]]>
+</script>

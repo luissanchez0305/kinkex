@@ -1,0 +1,42 @@
+<span style="color: red; font-weight: bold;" ><?php echo "Welcome to our online training center"; ?></span><br/>
+<?php 
+			$id = (int) $this->getRequest()->getParam('id');
+			$item = Mage::getModel('module/module')->load($id);
+			$video= Mage::getBaseUrl().'/video/'. $item->getFilename();
+			$quizvideotitle = $item->getQuizvideoTitle();
+?>
+<div class="videotrain" >
+		<div class="spa"><?php echo  $quizvideotitle; ?></div>
+		<div class="embed1">
+		<embed width="650" height="400" pluginspage="http://www.apple.com/quicktime/download/"
+		src="<?php echo $video; ?>" controller="false" autoplay="false" loop= "true" >
+		</embed> <br/>
+		</div>
+</div>
+<?php $myStatus = Mage::getSingleton('customer/session')->isLoggedIn();
+  if($myStatus){ ?>
+<?php
+$collection = Mage::getModel('quetions/quetions')->getCollection();
+$collection->addFilter('quizvideotitle',array('in' => $quizvideotitle));
+if(count($collection) > 0){ ?>
+	<span style="color: red; font-weight: bold;" ><?php echo "Welcome to Quiz compitition"; ?></span><br/>
+	<span style="color: red; font-weight: bold;" ><?php echo "You can start quiz Compitition"; ?></span>
+<?php
+foreach ($collection as $coll) { ?>
+<?php $queid += 1; ?>
+<div class="spa"><?php echo '('.$queid.')'; ?>&nbsp;&nbsp;<?php	echo $coll->getQuizquetion().'<br/>'; ?></div>
+<form action="<?php echo $this->getUrl('quetions/index/view').'id/'.$item['module_id']; ?>" name="form" method="post">
+	<?php $item['module_id'] += 1; ?>
+<?php if($coll['answer_1'] != null){ ?> <input style="vertical-align: top; margin-top: 2px;" type="radio"  name="<?php echo $item['module_id'] ?>" value="<?php echo $coll['answer_1']; ?>" >&nbsp;<?php echo $coll['answer_1']; ?>&nbsp;<?php } ?>
+<?php if($coll['answer_2'] != null){ ?> <input style="vertical-align: top; margin-top: 2px;" type="radio"  name="<?php echo $item['module_id'] ?>"  value="<?php echo $coll['answer_2']; ?>" >&nbsp;<?php echo $coll['answer_2']; ?>&nbsp;<?php } ?>
+<?php if($coll['answer_3'] != null){ ?> <input style="vertical-align: top; margin-top: 2px;" type="radio"  name="<?php echo $item['module_id'] ?>"  value="<?php echo $coll['answer_3']; ?>" >&nbsp;<?php echo $coll['answer_3']; ?>&nbsp;<?php } ?>
+<?php if($coll['answer_4'] != null){ ?> <input style="vertical-align: top; margin-top: 2px;" type="radio"  name="<?php echo $item['module_id'] ?>"  value="<?php echo $coll['answer_4']; ?>" >&nbsp;<?php echo $coll['answer_4']; ?>&nbsp;<?php } ?>
+<?php if($coll['answer_5'] != null){ ?> <input style="vertical-align: top; margin-top: 2px;" type="radio"  name="<?php echo $item['module_id'] ?>"  value="<?php echo $coll['answer_5']; ?>" >&nbsp;<?php echo $coll['answer_5']; ?><br /><?php } ?>
+<?php  }?><br /><br />
+<input type="submit" name="quizanswer" value="Submit" />
+<?php } else{ ?> <span style="color: red; font-weight: bold;" > <?php echo "No Quiz Quetions Assiged to this video...Sorry! Try Again Later"; ?><?php } ?>
+</form>
+<?php }else{ echo "you have to logged in first before start quiz"; ?><br/>Click <a href="<?php echo $this->getUrl('customer/account/login') ?>">HERE</a> to logged in<?php	
+	 } 
+	 ?>
+<style type="text/css">.spa{margin: 10px 0 10px 0;}</style>

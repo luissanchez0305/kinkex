@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<layout>
+    <amazonimportproducts_import_edit>
+        <reference name="head">
+            <action method="addCss"><stylesheet>amazonimportproducts/style.css</stylesheet></action>
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
+    </amazonimportproducts_import_edit>
+    <amazonimportproducts_importbooks_edit>
+        <reference name="head">
+            <action method="addCss"><stylesheet>amazonimportproducts/style.css</stylesheet></action>
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
+    </amazonimportproducts_importbooks_edit>
+    <amazonimportproducts_import_index>
+        <reference name="head">
+            <action method="addCss"><stylesheet>amazonimportproducts/style.css</stylesheet></action>
+        </reference>
+        <reference name="content">
+            <block type="adminhtml/template" template="amazonimportproducts/popup.phtml" name="popup"/>
+            <block type="adminhtml/template" template="amazonimportproducts/categoriesselector.phtml" name="catselector"/>
+            <block type="adminhtml/template" template="amazonimportproducts/import.phtml" name="amazon.import" />
+            <block type="amazonimportproducts/adminhtml_import" name="amazon.import.grid" />
+        </reference>
+        <reference name="js">
+            <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
+            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
+        </reference>
+    </amazonimportproducts_import_index>
+    <amazonimportproducts_importbooks_index>
+        <reference name="head">
+            <action method="addCss"><stylesheet>amazonimportproducts/style.css</stylesheet></action>
+        </reference>
+        <reference name="content">
+            <block type="adminhtml/template" template="amazonimportproducts/popup.phtml" name="popup"/>
+            <block type="adminhtml/template" template="amazonimportproducts/categoriesselector.phtml" name="catselector"/>
+            <block type="adminhtml/template" template="amazonimportproducts/importbooks.phtml" name="amazon.importbooks" />
+            <block type="amazonimportproducts/adminhtml_importbooks" name="amazon.importbooks.grid" />
+        </reference>
+        <reference name="js">
+            <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
+            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
+        </reference>
+    </amazonimportproducts_importbooks_index>
+    <amazonimportproducts_sync_index>
+        <reference name="head">
+            <action method="addCss"><stylesheet>amazonimportproducts/style.css</stylesheet></action>
+        </reference>
+        <reference name="content">
+            <block type="adminhtml/template" template="amazonimportproducts/popup.phtml" name="popup"/>
+            <block type="adminhtml/template" template="amazonimportproducts/sync.phtml" name="amazon.sync"/>
+            <block type="amazonimportproducts/adminhtml_sync" name="amazon.sync.grid"/>
+        </reference>
+    </amazonimportproducts_sync_index>
+</layout>

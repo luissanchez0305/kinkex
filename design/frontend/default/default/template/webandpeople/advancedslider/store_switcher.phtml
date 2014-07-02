@@ -1,0 +1,37 @@
+<?php if ($websites = $this->getWebsites()): ?>
+<p class="switcher"><label for="advancedslider_store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
+<select name="advancedslider_store_switcher" id="advancedslider_store_switcher" onchange="return switchStore(this);">
+    <?php foreach ($websites as $website): ?>
+        <?php $showWebsite = false; ?>
+        <?php foreach ($website->getGroups() as $group): ?>
+            <?php $showGroup = false; ?>
+            <?php foreach ($this->getStores($group) as $store): ?>
+                <?php if ($showWebsite == false): ?>
+                    <?php $showWebsite = true; ?>
+                    <optgroup label="<?php echo $website->getName() ?>"></optgroup>
+                <?php endif; ?>
+                <?php if ($showGroup == false): ?>
+                    <?php $showGroup = true; ?>
+                    <optgroup label="&nbsp;&nbsp;&nbsp;<?php echo $group->getName() ?>">
+                <?php endif; ?>
+                <option value="<?php echo $store->getId() ?>"<?php if($this->getStoreId() == $store->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $store->getName() ?></option>
+            <?php endforeach; ?>
+            <?php if ($showGroup): ?>
+                </optgroup>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+</select>
+</p>
+<script type="text/javascript">
+    function switchStore(obj)
+    {
+        var storeParam = obj.value ? 'store/' + obj.value + '/' : '';
+        if (obj.switchParams)
+        {
+            storeParam+= obj.switchParams;
+        }
+        setLocation('<?php echo $this->getSwitchUrl() ?>' + storeParam);
+    }
+</script>
+<?php endif; ?>

@@ -1,0 +1,145 @@
+<div id="amazon-popup-window-mask" style="display:none;"></div>
+<div id="amazon-popup-window" class="message-popup">
+    <div class="message-popup-head">
+        <h2 id="amazon-popup-process-title"></h2>
+    </div>
+    <div class="message-popup-content">
+        <div class="message amazon-message-box">
+            <div class="amazon-load-box" id="amazon-img-loader">
+                <img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo $this->__('Processing...') ?>" />
+            </div>
+            <div class="amazon-popup-process-info">
+                <p id="amazon-popup-process-message"></p>
+                <p id="amazon-popup-process-error"></p>
+            </div>
+        </div>
+        <div class="amazon-load-stop">
+            <button id="amazon-popup-process-stop-button" onclick="wpStopProcessImportAmazon(); return false;" class="scalable delete" type="button"><span id="amazon-load-stop-message"><?php echo $this->__('Stop') ?></span></button>
+            <button id="amazon-popup-process-finish-button" onclick="setLocation('<?php echo $this->getUrl('*/*/'); ?>'); return false;" class="scalable nodisp" type="button"><span><?php echo $this->__('Close') ?></span></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var wpAmazonImportTimeoutNext = 1000;
+    var wpAmazonImportPopupParams = {};
+
+    function wpOpenImportAmazonPopup()
+    {
+        $('amazon-popup-process-message').update(wpAmazonImportPopupParams.startText);
+        $('amazon-popup-process-title').update(wpAmazonImportPopupParams.title);
+
+        if (wpAmazonImportPopupParams.hideStopButton)
+            Element.hide('amazon-popup-process-stop-button');
+        else
+            Element.show('amazon-popup-process-stop-button');
+
+        var height = $('html-body').getHeight();
+        $('amazon-popup-window-mask').setStyle({'height':height+'px'});
+        toggleSelectsUnderBlock($('amazon-popup-window-mask'), false);
+        Element.show('amazon-popup-window-mask');
+        var popup = $('amazon-popup-window');
+        var top = getClientHeight() / 2 - 100;
+        popup.setStyle({'top': top + 'px'});
+
+        wpAmazonImportPopupParams.stop = false;
+        wpAmazonImportPopupParams.next = true;
+
+        if (wpAmazonImportPopupParams.once)
+        {
+            wpProcessImportAmazon();
+        }
+        else
+        {
+            wpAmazonImportPopupParams.iteration = setInterval(function() {
+                if (!wpAmazonImportPopupParams.next) return;
+                wpProcessImportAmazon();
+            }, wpAmazonImportTimeoutNext);
+        }
+    }
+
+    function wpProcessImportAmazon()
+    {
+        if (wpAmazonImportPopupParams.stop)
+        {
+            wpFinishProcessImportAmazon();
+            return;
+        }
+
+        wpAmazonImportPopupParams.next = false;
+        new Ajax.Request(wpAmazonImportPopupParams.url, {
+            asynchronous: true,
+            method: 'post',
+            loaderArea: false,
+            parameters: wpAmazonImportPopupParams.data,
+            onComplete: function(transport) {
+
+                wpAmazonImportPopupParams.data.startProcess = 0;
+                wpAmazonImportPopupParams.next = true;
+
+                var responseJSON = transport.responseText.evalJSON();
+
+                if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect)
+                {
+                    setLocation(responseJSON.ajaxRedirect);
+                    return;
+                }
+
+                if (responseJSON.text)
+                {
+                    $('amazon-popup-process-message').update(responseJSON.text);
+                }
+
+                if (responseJSON.error)
+                {
+                    $('amazon-popup-process-error').update(responseJSON.error);
+                }
+
+                if (responseJSON.finish || responseJSON.error)
+                {
+                    wpFinishProcessImportAmazon();
+                }
+
+                if (responseJSON.redirect)
+                {
+                    setTimeout(function(){ setLocation(responseJSON.redirect); }, 3000);
+                }
+            }
+        });
+    }
+
+    function wpStopProcessImportAmazon()
+    {
+        wpAmazonImportPopupParams.stop = true;
+        $('amazon-load-stop-message').update('<?php echo $this->__('The process is being stopped...') ?>');
+    }
+
+    function wpFinishProcessImportAmazon()
+    {
+        clearInterval(wpAmazonImportPopupParams.iteration);
+        Element.hide('amazon-popup-process-stop-button');
+        $('amazon-img-loader').style.display = 'none';
+        $('amazon-popup-process-finish-button').removeClassName('nodisp');
+        var txtFinish = $('amazon-popup-process-message').innerHTML + '<br /><?php echo $this->__('Process completed') ?>';
+        $('amazon-popup-process-message').update(txtFinish);
+    }
+
+    function getClientHeight()
+    {
+        return this.filterResults (
+            window.innerHeight ? window.innerHeight : 0,
+            document.documentElement ? document.documentElement.clientHeight : 0,
+            document.body ? document.body.clientHeight : 0
+        );
+    }
+
+    function filterResults(n_win, n_docel, n_body)
+    {
+        var n_result = n_win ? n_win : 0;
+        if (n_docel && (!n_result || (n_result > n_docel)))
+            n_result = n_docel;
+        return n_body && (!n_result || (n_result > n_body)) ? n_body : n_result;
+    }
+//]]>
+</script>
