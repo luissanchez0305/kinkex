@@ -261,13 +261,18 @@ class Paymentsense_Paymentsensegateway_Block_Redirect extends Mage_Core_Block_Ab
 			  		   							->setCv2(null);
         
         $html = '<html><body>';
-        $html.= $form->toHtml();
-        $html.= '<div align="center"><img src="'.$this->getSkinUrl("images/paymentsense.gif").'"><p></div>';
-        $html.= '<div align="center"><img src="'.$this->getSkinUrl("images/opc-ajax-loader.gif").'"><p></div>';
-        $html.= '<div align="center">Verificando sus Datos, por favor espere...</div>';
-        $html.= '<script type="text/javascript">document.getElementById("TransparentRedirectForm").submit();</script>';
-        $html.= '</body></html>';
-    	
+        if(strlen($customer->getEmail()) > 0) {        	
+	        $html.= $form->toHtml();
+	        $html.= '<div align="center"><img src="'.$this->getSkinUrl("images/paymentsense.gif").'"><p></div>';
+	        $html.= '<div align="center"><img src="'.$this->getSkinUrl("images/opc-ajax-loader.gif").'"><p></div>';
+	        $html.= '<div align="center">Verificando sus Datos, por favor espere...</div>';
+	        $html.= '<script type="text/javascript">document.getElementById("TransparentRedirectForm").submit();</script>';
+	        $html.= '</body></html>';
+        }
+    	else {
+    		$html.= '<script type="text/javascript">location.href = "https://www.kinkex.com/checkout/onepage/?notLoggedin=1"</script>';
+    		$html.= '</body></html>';
+    	}
     	return $html;
     }
     

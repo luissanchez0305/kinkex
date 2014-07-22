@@ -511,8 +511,14 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $this->getOnepage()->saveOrder();
 
             $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
-            $result['success'] = true;
-            $result['error']   = false;
+        	$customer = Mage::getSingleton('customer/session')->getCustomer();
+        	$result['success'] = true;
+        	$result['error']   = false;
+            /*$result['success'] = false;
+            $result['error']   = true;
+            $result['error_messages'] = '-- ' . $customer->getId() . ' --';
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            return;*/
         } catch (Mage_Payment_Model_Info_Exception $e) {
             $message = $e->getMessage();
             if( !empty($message) ) {

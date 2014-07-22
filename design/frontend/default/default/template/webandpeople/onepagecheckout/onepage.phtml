@@ -180,7 +180,9 @@
     }
 
     <?php if($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER || !$this->getQuote()->isAllowedGuestCheckout()): ?>
-    toggleRegister(true);
+    toggleRegister(true);        
+    /*var url = '<?php echo $this->getUrl('checkout/onepage/ajaxUpdate', array('type' => 'all_methods')) ?>';
+    checkout.updateInfo(url);*/
     <?php endif ?>
     <?php if($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_GUEST && $this->getQuote()->isAllowedGuestCheckout()): ?>
     toggleRegister(false);

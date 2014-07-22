@@ -5,9 +5,6 @@
 <?php if ($direct->getConfigData('mode') == Paymentsense_Paymentsensegateway_Model_Source_PaymentMode::PAYMENT_MODE_HOSTED_PAYMENT_FORM) {?>
 	<fieldset class="form-list">
 		<ul id="payment_form_<?php echo $_code ?>" style="display:none">
-			<li>
-				<img alt="<?php echo $this->__('PagueloFacil Logo'); ?>" src="<?php echo $this->getSkinUrl('images/paymentsense.gif'); ?>">
-			</li>
 	        <li>
 	            <?php echo $this->__('Usted será redirigido a una página segura donde usted puede terminar su pago.') ?>
 	        </li>
@@ -18,7 +15,7 @@
 	</fieldset>
 <?php } else {?>
 	<fieldset class="form-list">
-	    <ul id="payment_form_<?php echo $_code; ?>" style="display:none">
+	    <ul id="payment_form_<?php echo $_code; ?>" style="display:none">	    	
 	    	<li style="display:none;">
 				<img alt="<?php echo $this->__('PagueloFacil logo'); ?>" src="<?php echo $this->getSkinUrl('images/paymentsense.gif'); ?>">
 			</li>
@@ -63,7 +60,7 @@
 	                &nbsp;
 	                <a href="#" class="cvv-what-is-this"><?php echo $this->__('Que es esto?') ?></a>
 	            </div>
-	        </li>   
+	        </li>
 	        <li>
 	            <div class="input-box">
 	            	<img width="231" height="48" alt="<?php echo $this->__('PagueloFacil logo'); ?>" src="<?php echo $this->getSkinUrl('images/verified_logos.png'); ?>">
@@ -91,4 +88,13 @@
 	        </li>
 	    </ul>
 	</fieldset>
+	<?php if($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] == "notLoggedin=1"){?>
+	<script type="text/javascript">
+		var html= '<div style="width: 500px; left: 50%; margin-left: -251px; top: 370px; display: block;position:absolute;" id="popup-onepagecheckout-error" class="wp-one-page-checkout-popup opc"><div class="section active"><div class="step-title"><h2>No ha iniciado sesion</h2><span id="popup-onepagecheckout-error_btn_close" class="number" onclick="closePopup()"></span></div><div class="step a-item" id="popup-onepagecheckout-error_content_html">Necesita iniciar sesion para realizar el pago</div></div></div>';
+		$$("body")[0].insert(html);
+		function closePopup(){
+			document.getElementById("popup-onepagecheckout-error").style.display = 'none';
+		}
+	</script>
+	<?php }?>
 <?php }?>

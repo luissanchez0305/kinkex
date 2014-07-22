@@ -5,9 +5,6 @@
 <?php if ($direct->getConfigData('mode') == Paymentsense_Paymentsensegateway_Model_Source_PaymentMode::PAYMENT_MODE_HOSTED_PAYMENT_FORM) {?>
 	<fieldset class="form-list">
 		<ul id="payment_form_<?php echo $_code ?>" style="display:none">
-			<li>
-				<img alt="<?php echo $this->__('PagueloFacil Logo'); ?>" src="<?php echo $this->getSkinUrl('images/paymentsense.gif'); ?>">
-			</li>
 	        <li>
 	            <?php echo $this->__('Usted será redirigido a una página segura donde usted puede terminar su pago.') ?>
 	        </li>
@@ -19,9 +16,6 @@
 <?php } else {?>
 	<fieldset class="form-list">
 	    <ul id="payment_form_<?php echo $_code; ?>" style="display:none">
-	    	<li>
-				<img alt="<?php echo $this->__('PagueloFacil Logo'); ?>" src="<?php echo $this->getSkinUrl('images/paymentsense.gif'); ?>">
-			</li>
 	        <li>
 	            <div class="input-box">
 	                <label for="<?php echo $_code; ?>_cc_owner"><?php echo $this->__('Name On Card') ?> <span class="required">*</span></label><br/>

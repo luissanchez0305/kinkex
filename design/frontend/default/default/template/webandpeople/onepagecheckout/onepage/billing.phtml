@@ -191,11 +191,11 @@
                     <?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
                 </li>
         <?php endif ?>
-                <?php if( $this->getQuote()->isAllowedGuestCheckout() ): ?>
+                <?php //if( $this->getQuote()->isAllowedGuestCheckout() ): ?>
                 <li class="control">
                     <input type="checkbox" class="checkbox" name="login[register]" id="login:register" value="1" title="<?php echo $this->__('Register') ?>" onclick="toggleRegister(this.checked)"/><label for="login:register"><?php echo $this->__('Create an Account') ?></label>
                 </li>
-                <?php endif; ?>
+                <?php //endif; ?>
                 <li class="fields" id="register-customer-password"<?php if(($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_GUEST && $this->getQuote()->isAllowedGuestCheckout()) || !$this->getQuote()->getCheckoutMethod()): ?> style="display:none;"<?php endif ?>>
                     <div class="field">
                         <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
